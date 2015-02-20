@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)file:///Users/ryan/code/metronome/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>Metronome</title>
+		<link rel="stylesheet" type="text/css" href="file:///Users/ryan/code/metronome/css/metronome.css">
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="bpm-helpers">
+				<button id="minus10">-10</button>
+				<button id="minus1">-1</button>
+				<button id="plus1">+1</button>
+				<button id="plus10">+10</button>
+			</div>
+
+			<input name="bpm" id="bpm" value="120">
+
+			<div>
+				<label for="time"><input name="time" id="time" value="0"> beats per measure</label>
+			</div>
+
+			<div id="controls">
+				<button id="start">start</button>
+				<button id="stop" style="display: none;">stop</button>
+			</div>
+
+			<div id="options">
+				<label for="mute"><input type="checkbox" name="mute" id="mute"> mute</label>
+			</div>
+
+			<div id="visual-target"></div>
+		</div>
+
+		<audio id="tick">
+			<source src="audio/tick.ogg" type="audio/ogg">
+			<source src="audio/tick.m4a" type="audio/mp4">
+		</audio>
+
+		<audio id="tick-downbeat">
+			<source src="audio/tick-downbeat.ogg" type="audio/ogg">
+			<source src="audio/tick-downbeat.m4a" type="audio/mp4">
+		</audio>
+
+		<script src="file:///Users/ryan/code/metronome/js/metronome.js"></script>
+	
+
+</body></html>

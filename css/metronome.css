@@ -1,0 +1,41 @@
+body {
+	background-color: white;
+	color: black;
+	margin: 0;
+	padding: 0;
+}
+
+input {
+	text-align: center;
+}
+
+#wrap {
+	text-align: center;
+	padding: 10px;
+}
+
+#wrap > div {
+	margin-top: 10px;
+}
+
+#bpm {
+	margin-top: 10px;
+	font-size: 300%;
+	width: 4em;
+}
+
+#time {
+	width: 2em;
+}
+
+#controls button {
+	font-size: 300%;
+}
+
+#options label {
+	display: block;
+}
+
+#visual-target {
+	font-size: 300%;
+}

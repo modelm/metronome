@@ -5,23 +5,32 @@ var Metronome = {
 
 	time: parseInt(document.getElementById('time').value),
 
-	tick: function() {
-		var sound = document.getElementById('tick');
+	context: new(window.audioContext || window.webkitAudioContext),
 
-		if (Metronome.time === 0) {
-			// no time signature, just play the tick and increment the beat indefinitely
+	tick: function() {
+		var osc = Metronome.context.createOscillator();
+
+		osc.type = 'sine';
+		osc.frequency.value = 2640; // 440 * 6
+		osc.connect(Metronome.context.destination);
+
+		if (Metronome.time === 0) { // no time signature, just play the tick and increment the beat indefinitely
 			Metronome.beat++;
 		} else if ((Metronome.beat < Metronome.time) && (Metronome.beat % Metronome.time > 0)) {
 			Metronome.beat++;
 		} else {
 			Metronome.beat = 1;
-			sound = document.getElementById('tick-downbeat');
+			osc.frequency.value = 3520; // 440 * 8
 		}
 
 		document.getElementById('visual-target').innerHTML = Metronome.beat;
 
 		if (!document.getElementById('mute').checked) {
-			sound.play();
+			osc.noteOn(0);
+
+			setTimeout(function() {
+				osc.noteOff(0);
+			}, 20);
 		}
 
 		console.log('tick');
@@ -33,7 +42,7 @@ var Metronome = {
 		if(bpm > 0) {
 			if (Metronome.interval !== null) window.clearInterval(Metronome.interval);
 			Metronome.interval = window.setInterval(Metronome.tick, beepInterval);
-			Metronome.tick(); // unless we call this now, we wait until beepInterval has passed before the first tick comes
+			//Metronome.tick(); // unless we call this now, we wait until beepInterval has passed before the first tick comes
 			document.getElementById('start').style.display = 'none';
 			document.getElementById('stop').style.display = '';
 			console.log('metronome started');

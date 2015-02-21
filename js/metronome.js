@@ -10,9 +10,8 @@ var Metronome = {
 	tick: function() {
 		var osc = Metronome.context.createOscillator();
 
-		osc.type = 'sine';
+		osc.type = osc.SINE;
 		osc.frequency.value = 2640; // 440 * 6
-		osc.connect(Metronome.context.destination);
 
 		if (Metronome.time === 0) { // no time signature, just play the tick and increment the beat indefinitely
 			Metronome.beat++;
@@ -26,11 +25,9 @@ var Metronome = {
 		document.getElementById('visual-target').innerHTML = Metronome.beat;
 
 		if (!document.getElementById('mute').checked) {
-			osc.noteOn(0);
-
-			setTimeout(function() {
-				osc.noteOff(0);
-			}, 20);
+			osc.connect(Metronome.context.destination);
+			osc.start(Metronome.context.currentTime);
+			osc.stop(Metronome.context.currentTime + 0.02);
 		}
 
 		console.log('tick');
@@ -96,6 +93,10 @@ var Metronome = {
 		}
 		document.getElementById('plus1').onclick = function(){
 			Metronome.addToBpm(1);
+		}
+
+		document.getElementById('popout').onclick = function(){
+			window.open('index.html', '_blank', 'width=250,height=300,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
 		}
 	}
 }

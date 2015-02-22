@@ -155,13 +155,13 @@ var Metronome = {
 		document.getElementById('minus10').onclick = decrementTempoBig;
 		Mousetrap.bind('left', decrementTempoBig);
 
-		document.getElementById('plus1').onclick = incrementTempoBig;
+		document.getElementById('plus10').onclick = incrementTempoBig;
 		Mousetrap.bind('right', incrementTempoBig);
 
 		document.getElementById('minus1').onclick = decrementTempoSmall;
 		Mousetrap.bind('down', decrementTempoSmall);
 
-		document.getElementById('plus10').onclick = incrementTempoSmall;
+		document.getElementById('plus1').onclick = incrementTempoSmall;
 		Mousetrap.bind('up', incrementTempoSmall);
 
 		document.getElementById('popout').onclick = function(){

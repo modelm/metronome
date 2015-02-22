@@ -137,7 +137,11 @@ var Metronome = {
 			return false;
 		});
 
-		document.getElementById('tempo').onkeyup = Metronome.restart;
+		document.getElementById('tempo').onkeyup = function() {
+			if (Metronome.interval) {
+				Metronome.restart();
+			}
+		}
 
 		document.getElementById('tempo').onchange = function() {
 			if (this.value === '' || parseInt(this.value) < 1) {

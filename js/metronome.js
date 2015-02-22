@@ -1,16 +1,22 @@
+/**
+ * depends on Mousetrap for keyboard shortcuts: http://cdn.craig.is/js/mousetrap/mousetrap.min.js
+ */
+
 var Metronome = {
 	interval: null, // used to store the result of setInterval() while ticking
 
 	beat: 0, // beat counter, reset to 1 on downbeats
 
-	time: document.getElementById('time').value, // the time signature
+	time: 0, // the time signature
+
+	groupings: [], // if the time signature is asymmetric, this will contain each group. otherwise it will contain only one element: beats per measure
+
+	strongBeats: [], // strong beats discovered by parsing the time input will be appended to this
 
 	context: new(window.audioContext || window.webkitAudioContext), // audio context in which to create and use the tone generator
 
 	tick: function() {
 		var osc = Metronome.context.createOscillator();
-		var groupings = Metronome.time.split('+'); // account for possible asymmetric time signature (if there's no '+', this will contain only one element: the beats per measure)
-		var strongBeats = [1]; // strong beats discovered by parsing the time input will be appended to this
 
 		if ((Metronome.time !== '0') && (Metronome.beat) >= eval(Metronome.time)) { // downbeat
 			Metronome.beat = 1;
@@ -18,48 +24,38 @@ var Metronome = {
 			Metronome.beat++;
 		}
 
-		for (var i = 0; i < groupings.length; i++) {
-			if (strongBeats.length) {
-				strongBeats.push(parseInt(groupings[i]) + strongBeats[strongBeats.length - 1]);
-			} else {
-				strongBeats.push(parseInt(groupings[i]));
-			}
-		}
-
-		osc.frequency.value = 2000;
-		document.getElementById('metronome').className = 'weak';
-
-		if (Metronome.time !== '0') {
-			if (Metronome.beat === 1) {
-				osc.frequency.value = 4000;
-				document.getElementById('metronome').className = 'downbeat';
-			} else if (strongBeats.indexOf(Metronome.beat) > -1) {
-				osc.frequency.value = 3000;
-				document.getElementById('metronome').className = 'strong';
-			}
-
-			document.getElementById('visual-target').innerHTML = Metronome.beat;
+		// determine & set beat type: downbeat, strong beat, or weak beat
+		if ((Metronome.time !== '0') && (Metronome.beat === 1)) {
+			osc.frequency.value = 4000;
+			document.getElementById('metronome').className = 'downbeat';
+		} else if ((Metronome.time !== '0') && (Metronome.strongBeats.indexOf(Metronome.beat) > -1)) {
+			osc.frequency.value = 3000;
+			document.getElementById('metronome').className = 'strong';
 		} else {
-			document.getElementById('visual-target').innerHTML = Metronome.beat;
+			osc.frequency.value = 2000;
+			document.getElementById('metronome').className = 'weak';
 		}
 
+		// visual tick
+		document.getElementById('visual-target').innerHTML = Metronome.beat;
 
+		// audio tick
 		if (!document.getElementById('mute').checked) {
 			osc.connect(Metronome.context.destination);
 			osc.start(Metronome.context.currentTime);
 			osc.stop(Metronome.context.currentTime + 0.0005);
 		}
 
-		console.log('tick');
+		console.log('metronome tick');
 	},
 
 	start: function() {
 		var bpm = document.getElementById('bpm').value;
 		var beepInterval = (60 / bpm) * 1000;
-		if(bpm > 0) {
+
+		if (bpm > 0) {
 			if (Metronome.interval !== null) window.clearInterval(Metronome.interval);
 			Metronome.interval = window.setInterval(Metronome.tick, beepInterval);
-			//Metronome.tick(); // unless we call this now, we wait until beepInterval has passed before the first tick comes
 			document.getElementById('start').style.display = 'none';
 			document.getElementById('stop').style.display = '';
 			console.log('metronome started');
@@ -89,19 +85,43 @@ var Metronome = {
 		if (Metronome.interval !== null) Metronome.start();
 	},
 
-	init: function() {
-		document.getElementById('stop').style.display = 'none';
+	parseTime: function() {
+		var timeInput = document.getElementById('time');
 
-		document.getElementById('bpm').onkeyup = Metronome.restart;
+		timeInput.value = timeInput.value.replace(/[^\d\+]/g, ''); // remove characters which are not numbers or '+'
+
+		timeInput.value = timeInput.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
+
+		if (timeInput.value === '') {
+			timeInput.value = 0;
+		}
+
+		if (!/^\+/.test(timeInput.value) && !/\+$/.test(timeInput.value)) { // ignore input beginning or ending with '+'
+			Metronome.time = timeInput.value;
+
+			Metronome.groupings = Metronome.time.split('+');
+
+			Metronome.strongBeats = [1];
+
+			for (var i = 0; i < Metronome.groupings.length - 1; i++) {
+				if (Metronome.strongBeats.length) {
+					Metronome.strongBeats.push(parseInt(Metronome.groupings[i]) + Metronome.strongBeats[Metronome.strongBeats.length - 1]);
+				} else {
+					Metronome.strongBeats.push(parseInt(Metronome.groupings[i]));
+				}
+			}
+
+			console.log(Metronome.time, Metronome.groupings, Metronome.strongBeats);
+		}
+	},
+
+	init: function() {
 		document.getElementById('start').onclick = Metronome.start;
 		document.getElementById('stop').onclick = Metronome.stop;
 
-		document.getElementById('time').onkeyup = function(){
-			if ((this.value.indexOf('+') !== 0) && (this.value.indexOf('+') !== this.value.length - 1)) { // reject input beginning or ending with '+'
-				this.value.replace(/[^\d\+]/,''); // remove characters which are not integers or '+'
-				Metronome.time = this.value;
-			}
-		}
+		document.getElementById('bpm').onkeyup = Metronome.restart;
+
+		document.getElementById('time').onkeyup = Metronome.parseTime;
 
 		document.getElementById('minus10').onclick = function(){
 			Metronome.addToBpm(-10);
@@ -120,6 +140,8 @@ var Metronome = {
 			Metronome.stop();
 			window.open('index.html', '_blank', 'width=250,height=300,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
 		}
+
+		Metronome.parseTime();
 	}
 }
 

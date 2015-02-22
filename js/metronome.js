@@ -3,23 +3,44 @@ var Metronome = {
 
 	beat: 0,
 
-	time: parseInt(document.getElementById('time').value),
+	time: document.getElementById('time').value,
 
 	context: new(window.audioContext || window.webkitAudioContext),
 
 	tick: function() {
 		var osc = Metronome.context.createOscillator();
+		var groupings = [parseInt(Metronome.time)];
+		var strongBeats = [1]; // strong beats discovered by parsing the time input will be appended to this
 
-		osc.type = osc.SINE;
-		osc.frequency.value = 2640; // 440 * 6
+		if (Metronome.time.indexOf('+') > -1) { // asymmetric time signature
+			groupings = Metronome.time.split('+');
+		}
 
-		if (Metronome.time === 0) { // no time signature, just play the tick and increment the beat indefinitely
-			Metronome.beat++;
-		} else if ((Metronome.beat < Metronome.time) && (Metronome.beat % Metronome.time > 0)) {
-			Metronome.beat++;
-		} else {
+		if ((Metronome.beat) >=	eval(Metronome.time)) { // downbeat
 			Metronome.beat = 1;
-			osc.frequency.value = 3520; // 440 * 8
+		} else {
+			Metronome.beat++;
+		}
+
+		for (var i = 0; i < groupings.length; i++) {
+			var t = parseInt(groupings[i]);
+
+			if (strongBeats.length) {
+				strongBeats.push(t + strongBeats[strongBeats.length - 1]);
+			} else {
+				strongBeats.push(t);
+			}
+		}
+
+		if (Metronome.beat === 1) {
+			osc.frequency.value = 4000;
+			document.getElementById('metronome').className = 'downbeat';
+		} else if (strongBeats.indexOf(Metronome.beat) > -1) {
+			osc.frequency.value = 3000;
+			document.getElementById('metronome').className = 'strong';
+		} else {
+			osc.frequency.value = 2000;
+			document.getElementById('metronome').className = 'weak';
 		}
 
 		document.getElementById('visual-target').innerHTML = Metronome.beat;
@@ -27,10 +48,10 @@ var Metronome = {
 		if (!document.getElementById('mute').checked) {
 			osc.connect(Metronome.context.destination);
 			osc.start(Metronome.context.currentTime);
-			osc.stop(Metronome.context.currentTime + 0.02);
+			osc.stop(Metronome.context.currentTime + 0.0005);
 		}
 
-		console.log('tick');
+		console.log('tick', Metronome.beat);
 	},
 
 	start: function() {
@@ -77,9 +98,8 @@ var Metronome = {
 		document.getElementById('stop').onclick = Metronome.stop;
 
 		document.getElementById('time').onkeyup = function(){
-			// TODO error handling for non-integers
-			// TODO support input like "2+3" for 5/4
-			Metronome.time = parseInt(this.value);
+			// TODO input sanitization/error handling
+			Metronome.time = this.value;
 		}
 
 		document.getElementById('minus10').onclick = function(){

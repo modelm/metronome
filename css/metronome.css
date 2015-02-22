@@ -9,11 +9,11 @@ input {
 	text-align: center;
 }
 
-#wrap {
+#metronome {
 	text-align: center;
 }
 
-#wrap > div {
+#metronome > div {
 	margin-top: 10px;
 }
 
@@ -23,7 +23,7 @@ input {
 }
 
 #time {
-	width: 2em;
+	width: 4em;
 }
 
 #controls button {
@@ -36,6 +36,18 @@ input {
 
 #visual-target {
 	font-size: 300%;
+}
+
+.downbeat #visual-target {
+	color: green;
+}
+
+.strong #visual-target {
+	color: blue;
+}
+
+.weak #visual-target {
+	color: black;
 }
 
 @media(max-width: 768px) {

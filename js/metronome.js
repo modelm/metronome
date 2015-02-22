@@ -50,17 +50,17 @@ var Metronome = {
 	},
 
 	start: function() {
-		var bpm = document.getElementById('bpm').value;
-		var beepInterval = (60 / bpm) * 1000;
+		var tempo = document.getElementById('tempo').value;
+		var beepInterval = (60 / tempo) * 1000;
 
-		if (bpm > 0) {
+		if (tempo > 0) {
 			if (Metronome.interval !== null) window.clearInterval(Metronome.interval);
 			Metronome.interval = window.setInterval(Metronome.tick, beepInterval);
 			document.getElementById('start').style.display = 'none';
 			document.getElementById('stop').style.display = '';
 			console.log('metronome started');
 		} else {
-			console.log('bpm must be positive', bpm); // TODO tell user
+			console.log('tempo must be positive', tempo); // TODO tell user
 		}
 	},
 
@@ -79,9 +79,9 @@ var Metronome = {
 		Metronome.start();
 	},
 
-	addToBpm: function(difference) {
-		var bpmInput = document.getElementById('bpm');
-		bpmInput.value = parseInt(bpmInput.value) + difference;
+	addToTempo: function(difference) {
+		var tempoInput = document.getElementById('tempo');
+		tempoInput.value = parseInt(tempoInput.value) + difference;
 		if (Metronome.interval !== null) Metronome.start();
 	},
 
@@ -91,10 +91,6 @@ var Metronome = {
 		timeInput.value = timeInput.value.replace(/[^\d\+]/g, ''); // remove characters which are not numbers or '+'
 
 		timeInput.value = timeInput.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
-
-		if (timeInput.value === '') {
-			timeInput.value = 0;
-		}
 
 		if (!/^\+/.test(timeInput.value) && !/\+$/.test(timeInput.value)) { // ignore input beginning or ending with '+'
 			Metronome.time = timeInput.value;
@@ -111,37 +107,90 @@ var Metronome = {
 				}
 			}
 
-			console.log(Metronome.time, Metronome.groupings, Metronome.strongBeats);
+			console.log('metronome parsed time: ', Metronome.time, Metronome.groupings, Metronome.strongBeats);
 		}
 	},
 
-	init: function() {
+	bindControls: function() {
+		var decrementTempoBig = function() {
+			Metronome.addToTempo(-10);
+		}
+		var decrementTempoSmall = function() {
+			Metronome.addToTempo(-1);
+		}
+		var incrementTempoSmall = function() {
+			Metronome.addToTempo(1);
+		}
+		var incrementTempoBig = function() {
+			Metronome.addToTempo(10);
+		}
+
 		document.getElementById('start').onclick = Metronome.start;
 		document.getElementById('stop').onclick = Metronome.stop;
 
-		document.getElementById('bpm').onkeyup = Metronome.restart;
+		Mousetrap.bind('space', function() {
+			if (Metronome.interval) {
+				Metronome.stop();
+			} else {
+				Metronome.start();
+			}
+		});
+
+		document.getElementById('tempo').onkeyup = Metronome.restart;
+
+		document.getElementById('tempo').onchange = function() {
+			if (this.value === '' || parseInt(this.value) < 1) {
+				this.value = 120;
+			}
+		}
 
 		document.getElementById('time').onkeyup = Metronome.parseTime;
 
-		document.getElementById('minus10').onclick = function(){
-			Metronome.addToBpm(-10);
+		document.getElementById('time').onchange = function() {
+			if (this.value === '') {
+				this.value = 0;
+			}
 		}
-		document.getElementById('minus1').onclick = function(){
-			Metronome.addToBpm(-1);
-		}
-		document.getElementById('plus10').onclick = function(){
-			Metronome.addToBpm(10);
-		}
-		document.getElementById('plus1').onclick = function(){
-			Metronome.addToBpm(1);
-		}
+
+		document.getElementById('minus10').onclick = decrementTempoBig;
+		Mousetrap.bind('left', decrementTempoBig);
+
+		document.getElementById('plus1').onclick = incrementTempoBig;
+		Mousetrap.bind('right', incrementTempoBig);
+
+		document.getElementById('minus1').onclick = decrementTempoSmall;
+		Mousetrap.bind('down', decrementTempoSmall);
+
+		document.getElementById('plus10').onclick = incrementTempoSmall;
+		Mousetrap.bind('up', incrementTempoSmall);
 
 		document.getElementById('popout').onclick = function(){
 			Metronome.stop();
 			window.open('index.html', '_blank', 'width=250,height=300,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
 		}
 
+		document.getElementById('show-help').onclick = function() {
+			var lines = [];
+			lines.push('tempo can be any positive integer');
+
+			lines.push('\n\nbeats per minute can be either:\n');
+			lines.push('• "0" (no grouping)');
+			lines.push('• one or more numbers separated by "+", e.g. "4", "2+3", "3+2+2"');
+
+			lines.push('\n\nkeyboard shortcuts:\n');
+			lines.push('• space: start/stop');
+			lines.push('• up arrow: increment tempo by 1');
+			lines.push('• down arrow: decrement tempo by 1');
+			lines.push('• left arrow: decrement tempo by 10');
+			lines.push('• right arrow: increment tempo by 10');
+			alert(lines.join('\n'));
+			return false;
+		};
+	},
+
+	init: function() {
 		Metronome.parseTime();
+		Metronome.bindControls();
 	}
 }
 

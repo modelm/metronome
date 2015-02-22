@@ -134,6 +134,7 @@ var Metronome = {
 			} else {
 				Metronome.start();
 			}
+			return false;
 		});
 
 		document.getElementById('tempo').onkeyup = Metronome.restart;

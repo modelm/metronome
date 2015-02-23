@@ -206,6 +206,9 @@ var Metronome = {
 				Metronome.start();
 			}
 		});
+		Mousetrap.bindGlobal('n', function() {
+			Metronome.addToTempo(-Math.floor(parseInt(Metronome.tempoInput.value)/2));
+		});
 		Mousetrap.bindGlobal('up', function() {
 			Metronome.addToTempo(1);
 		});
@@ -217,6 +220,9 @@ var Metronome = {
 		});
 		Mousetrap.bindGlobal('left', function() {
 			Metronome.addToTempo(-10);
+		});
+		Mousetrap.bindGlobal('m', function() {
+			Metronome.addToTempo(parseInt(Metronome.tempoInput.value));
 		});
 
 		// tempo / beats per minute
@@ -230,6 +236,9 @@ var Metronome = {
 		document.getElementById('stop').onclick = Metronome.stop;
 
 		// increment/decrement buttons
+		document.getElementById('halve').onclick = function() {
+			Mousetrap.trigger('n');
+		}
 		document.getElementById('minus10').onclick = function() {
 			Mousetrap.trigger('left');
 		}
@@ -241,6 +250,9 @@ var Metronome = {
 		}
 		document.getElementById('plus1').onclick = function() {
 			Mousetrap.trigger('up');
+		}
+		document.getElementById('double').onclick = function() {
+			Mousetrap.trigger('m');
 		}
 
 		// tap tempo button

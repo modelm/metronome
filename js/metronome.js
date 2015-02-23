@@ -230,6 +230,10 @@ var Metronome = {
 
 		// time / beats per measure
 		Metronome.timeInput.onkeyup = Metronome.parseTime;
+		document.getElementById('reset-time').onclick = function() {
+			Metronome.timeInput.value = '';
+			Metronome.parseTime();
+		}
 
 		// start/stop buttons
 		document.getElementById('start').onclick = Metronome.start;

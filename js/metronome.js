@@ -50,7 +50,7 @@ var Metronome = {
 	},
 
 	start: function() {
-		var tempo = document.getElementById('tempo').value;
+		var tempo = document.getElementById('tempo').value || 120;
 		var beepInterval = (60 / tempo) * 1000;
 
 		if (tempo > 0) {
@@ -93,6 +93,8 @@ var Metronome = {
 		timeInput.value = timeInput.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
 
 		if (!/^\+/.test(timeInput.value) && !/\+$/.test(timeInput.value)) { // ignore input beginning or ending with '+'
+			if (!timeInput.value.length) timeInput.value = 0;
+
 			Metronome.time = timeInput.value;
 
 			Metronome.groupings = Metronome.time.split('+');

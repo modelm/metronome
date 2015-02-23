@@ -11,3 +11,8 @@ KNOWN BUGS
 1. If you open the metronome in a tab with a tempo > 60 BPM and focus a different tab, the de-focused metronome tab only plays at most 60 BPM. This is a byproduct of using setInterval() I think and I'm not sure of the best way around it yet. To mitigate this I use the "small window popout" button which opens a new small window which retains the correct tempo when it's de-focused unlike a tab.
 
 2. Only the first tick is audible in Firefox
+
+TODO
+
+1. tone generator / tuner
+2. options to change tick pitch/type

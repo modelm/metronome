@@ -104,7 +104,7 @@ var Metronome = {
 
 	addToTempo: function(difference) {
 		Metronome.tempoInput.value = parseInt(Metronome.tempoInput.value) + difference;
-		if (Metronome.interval !== null) Metronome.start();
+		Metronome.parseTempo();
 	},
 
 	parseTime: function() {
@@ -136,6 +136,7 @@ var Metronome = {
 		Metronome.tempoInput.value = Metronome.tempoInput.value.replace(/[^0-9]/g, ''); // remove non-numeric characters
 
 		localStorage.setItem('metronome.tempo', Metronome.tempoInput.value);
+		console.log('metronome parsed tempo: ', Metronome.tempoInput.value, ' localStorage metronome.tempo: ', localStorage.getItem('metronome.tempo'));
 
 		if (Metronome.interval) Metronome.restart();
 	},
@@ -256,16 +257,12 @@ var Metronome = {
 	},
 
 	init: function() {
+		console.log(localStorage);
+
 		Metronome.tempoInput.value = localStorage.getItem('metronome.tempo') || Metronome.defaults.tempo;
 		Metronome.timeInput.value = localStorage.getItem('metronome.time') || Metronome.defaults.time;
 		Metronome.parseTime();
 		Metronome.bindControls();
-
-		// this is necessary for ios to actually play the tick more than once
-		var osc = Metronome.context.createOscillator();
-		osc.connect(Metronome.context.destination);
-		osc.start(Metronome.context.currentTime);
-		osc.stop(Metronome.context.currentTime);
 	}
 }
 

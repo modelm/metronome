@@ -15,9 +15,11 @@ var Metronome = {
 
 	taps: [], // will contain times when the tap button was clicked (shift()ed every tap after the second one)
 
-	context: new(window.audioContext || window.webkitAudioContext), // audio context in which to create and use the tone generator
+	context: new (window.AudioContext || window.webkitAudioContext), // audio context in which to create and use the tone generator
 
 	tempoInput: document.getElementById('tempo'),
+
+	timeInput: document.getElementById('time'),
 
 	tick: function() {
 		var osc = Metronome.context.createOscillator();
@@ -91,16 +93,14 @@ var Metronome = {
 	},
 
 	parseTime: function() {
-		var timeInput = document.getElementById('time');
+		Metronome.timeInput.value = Metronome.timeInput.value.replace(/^[^1-9\+]/g, ''); // remove characters which are not numbers or '+'
 
-		timeInput.value = timeInput.value.replace(/[^\d\+]/g, ''); // remove characters which are not numbers or '+'
+		Metronome.timeInput.value = Metronome.timeInput.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
 
-		timeInput.value = timeInput.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
+		if (!/^\+/.test(Metronome.timeInput.value) && !/\+$/.test(Metronome.timeInput.value)) { // ignore input beginning or ending with '+'
+			if (!Metronome.timeInput.value.length) Metronome.timeInput.value = 0;
 
-		if (!/^\+/.test(timeInput.value) && !/\+$/.test(timeInput.value)) { // ignore input beginning or ending with '+'
-			if (!timeInput.value.length) timeInput.value = 0;
-
-			Metronome.time = timeInput.value;
+			Metronome.time = Metronome.timeInput.value;
 
 			Metronome.groupings = Metronome.time.split('+');
 
@@ -131,34 +131,68 @@ var Metronome = {
 		var incrementTempoBig = function() {
 			Metronome.addToTempo(10);
 		}
-
-		// start/stop
-		document.getElementById('start').onclick = Metronome.start;
-		document.getElementById('stop').onclick = Metronome.stop;
-		Mousetrap.bind('space', function() {
+		var startStop = function() { // start if stopped; stop if started
 			if (Metronome.interval) {
 				Metronome.stop();
 			} else {
 				Metronome.start();
 			}
+		}
+		var inputs = document.getElementsByTagName('input');
+
+		// ensure control keys still work when inputs are focused
+		for (var i = 0; i < inputs.length; i++) {
+			inputs[i].onkeydown = function(e) {
+				switch (e.which) {
+					case 32: // space
+						startStop();
+						return false;
+					case 37: // left arrow
+						decrementTempoBig();
+						return false;
+					case 39: // right arrow
+						incrementTempoBig();
+						return false;
+					case 38: // up arrow
+						incrementTempoSmall();
+						return false;
+					case 40: // down arrow
+						decrementTempoSmall();
+						return false;
+				}
+			}
+		}
+
+		// start/stop
+		document.getElementById('start').onclick = Metronome.start;
+		document.getElementById('stop').onclick = Metronome.stop;
+		Mousetrap.bind('space', function() {
+			startStop();
 			return false;
 		});
 
 		// tempo / beats per minute
-		document.getElementById('tempo').onkeyup = function() {
+		Metronome.tempoInput.onkeyup = function() {
 			if (Metronome.interval) {
 				Metronome.restart();
 			}
 		}
-		document.getElementById('tempo').onchange = function() {
+		Metronome.tempoInput.onchange = function() {
 			if (this.value === '' || parseInt(this.value) < 1) {
 				this.value = 120;
 			}
 		}
 
 		// time / beats per measure
-		document.getElementById('time').onkeyup = Metronome.parseTime;
-		document.getElementById('time').onchange = function() {
+		Metronome.timeInput.onkeydown = function() {
+			if (this.value === '0') {
+				this.value = '';
+			}
+		}
+		Metronome.timeInput.onkeyup = function() {
+			Metronome.parseTime();
+		}
+		Metronome.timeInput.onchange = function() {
 			if (this.value === '') {
 				this.value = 0;
 			}
@@ -180,7 +214,7 @@ var Metronome = {
 		// small window popout
 		document.getElementById('popout').onclick = function(){
 			Metronome.stop();
-			window.open('index.html', '_blank', 'width=250,height=300,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
+			window.open('index.html', '_blank', 'width=300,height=400,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
 		}
 
 		// tap tempo

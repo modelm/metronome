@@ -43,14 +43,16 @@ button:hover {
 
 #show-help {
 	position: absolute;
-	top: 10px;
+	bottom: 10px;
 	right: 10px;
 }
 
-#popout {
+#metronome-advanced-controls {
 	position: absolute;
 	top: 10px;
 	left: 10px;
+}
+#metronome-advanced-controls * {
 	font-size: 125%;
 }
 
@@ -60,8 +62,8 @@ button:hover {
 	line-height: 70px;
 }
 
-#tempo-helpers > div {
-	line-height: 1em;
+#tempo-helpers button {
+	font-size: 125%;
 }
 
 #tempo {
@@ -76,10 +78,6 @@ button:hover {
 
 #controls button {
 	font-size: 300%;
-}
-
-#options label {
-	display: block;
 }
 
 #visual-target {
@@ -99,7 +97,7 @@ button:hover {
 }
 
 @media(max-width: 768px) {
-	#popout {
+	#metronome-advanced-controls {
 		display: none;
 	}
 }

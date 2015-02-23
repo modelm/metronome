@@ -17,6 +17,12 @@ var Metronome = {
 
 	context: new (window.AudioContext || window.webkitAudioContext), // audio context in which to create and use the tone generator
 
+	frequencies: {
+		DOWNBEAT: 4000,
+		STRONG: 3000,
+		WEAK: 2000,
+	},
+
 	tempoInput: document.getElementById('tempo'),
 
 	timeInput: document.getElementById('time'),
@@ -32,13 +38,13 @@ var Metronome = {
 
 		// determine & set beat type: downbeat, strong beat, or weak beat
 		if ((Metronome.time !== '0') && (Metronome.beat === 1)) {
-			osc.frequency.value = 4000;
+			osc.frequency.value = Metronome.frequencies.DOWNBEAT;
 			document.getElementById('metronome').className = 'downbeat';
 		} else if ((Metronome.time !== '0') && (Metronome.strongBeats.indexOf(Metronome.beat) > -1)) {
-			osc.frequency.value = 3000;
+			osc.frequency.value = Metronome.frequencies.STRONG;
 			document.getElementById('metronome').className = 'strong';
 		} else {
-			osc.frequency.value = 2000;
+			osc.frequency.value = Metronome.frequencies.WEAK;
 			document.getElementById('metronome').className = 'weak';
 		}
 

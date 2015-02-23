@@ -1,12 +1,40 @@
 body {
-	background-color: white;
+	font-family: Helvetica, sans-serif;
+	background-color: #fafafa;
 	color: black;
 	margin: 0;
 	padding: 0;
+	height: 100%;
 }
 
 input {
 	text-align: center;
+	border: 1px solid #c0c0c0;
+}
+
+button {
+	border: 1px solid #c0c0c0;
+	background-color: #f0f0f0;
+}
+
+button:hover {
+	border-color: #000000;
+	cursor: pointer;
+}
+
+#metronome {
+	background-color: white;
+	text-align: center;
+	width: 320px;
+	height: 480px;
+	vertical-align: middle;
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: table;
 }
 
 #show-help {
@@ -15,17 +43,27 @@ input {
 	right: 10px;
 }
 
-#metronome {
-	text-align: center;
+#popout {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	font-size: 125%;
 }
 
 #metronome > div {
-	margin-top: 10px;
+	margin: 10px 0;
+	height: 70px;
+	line-height: 70px;
+}
+
+#tempo-helpers > div {
+	line-height: 1em;
 }
 
 #tempo {
 	font-size: 300%;
 	width: 4em;
+	height: 60px;
 }
 
 #time {

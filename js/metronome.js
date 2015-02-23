@@ -216,7 +216,7 @@ var Metronome = {
 		// small window popout
 		document.getElementById('popout').onclick = function(){
 			Metronome.stop();
-			window.open('index.html', '_blank', 'width=300,height=400,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
+			window.open('index.html', '_blank', 'width=320,height=480,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
 		}
 
 		// tap tempo
@@ -248,7 +248,7 @@ var Metronome = {
 
 			lines.push('tempo can be any positive integer');
 
-			lines.push('\n\nbeats per minute can be either:\n');
+			lines.push('\n\nbeats per minute can be either of the following:\n');
 			lines.push('• "0" (no grouping)');
 			lines.push('• one or more numbers separated by "+", e.g. "4", "2+3", "3+2+2"');
 

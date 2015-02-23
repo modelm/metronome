@@ -139,28 +139,29 @@ var Metronome = {
 			}
 		}
 		var inputs = document.getElementsByTagName('input');
+		var keydownHandler = function(e) {
+			switch (e.which) {
+				case 32: // space
+					startStop();
+					return false;
+				case 37: // left arrow
+					decrementTempoBig();
+					return false;
+				case 39: // right arrow
+					incrementTempoBig();
+					return false;
+				case 38: // up arrow
+					incrementTempoSmall();
+					return false;
+				case 40: // down arrow
+					decrementTempoSmall();
+					return false;
+			}
+		}
 
 		// ensure control keys still work when inputs are focused
 		for (var i = 0; i < inputs.length; i++) {
-			inputs[i].onkeydown = function(e) {
-				switch (e.which) {
-					case 32: // space
-						startStop();
-						return false;
-					case 37: // left arrow
-						decrementTempoBig();
-						return false;
-					case 39: // right arrow
-						incrementTempoBig();
-						return false;
-					case 38: // up arrow
-						incrementTempoSmall();
-						return false;
-					case 40: // down arrow
-						decrementTempoSmall();
-						return false;
-				}
-			}
+			inputs[i].onkeydown = keydownHandler;
 		}
 
 		// start/stop
@@ -184,10 +185,11 @@ var Metronome = {
 		}
 
 		// time / beats per measure
-		Metronome.timeInput.onkeydown = function() {
+		Metronome.timeInput.onkeydown = function(e) {
 			if (this.value === '0') {
 				this.value = '';
 			}
+			return keydownHandler(e);
 		}
 		Metronome.timeInput.onkeyup = function() {
 			Metronome.parseTime();

@@ -251,7 +251,7 @@ var Metronome = {
 		// small window popout button
 		document.getElementById('popout').onclick = function() {
 			Metronome.stop();
-			window.open('index.html', '_blank', 'width=320,height=480,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
+			window.open('index.html', '_blank', 'width=320,height=400,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
 		}
 	},
 

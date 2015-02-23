@@ -172,6 +172,8 @@ var Metronome = {
 			'• left - decrement tempo by 10',
 			'• right - increment tempo by 10',
 			'• . - tap tempo',
+			'• b - focus beats per measure',
+			'• t - focus tempo',
 			'• ? - show this help',
 		];
 

@@ -1,7 +1,6 @@
 body {
 	font-family: Helvetica, sans-serif;
-	background-color: #fafafa;
-	color: black;
+	color: #000000;
 	margin: 0;
 	padding: 0;
 	height: 100%;
@@ -27,11 +26,26 @@ button:hover {
 	cursor: pointer;
 }
 
+#metronome-advanced-controls {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+#metronome-advanced-controls * {
+	font-size: 125%;
+}
+
+#show-help {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
 #metronome {
-	background-color: white;
+	border: 1px solid #c0c0c0;
 	text-align: center;
-	width: 320px;
-	height: 480px;
+	width: 318px;
+	height: 458px;
 	vertical-align: middle;
 	margin: auto;
 	position: absolute;
@@ -42,27 +56,15 @@ button:hover {
 	display: table;
 }
 
-#show-help {
-	position: absolute;
-	bottom: 10px;
-	right: 10px;
-}
-
-#metronome-advanced-controls {
-	position: absolute;
-	top: 10px;
-	left: 10px;
-}
-#metronome-advanced-controls * {
-	font-size: 125%;
-}
-
 #metronome > div {
-	margin: 10px 0;
-	height: 70px;
-	line-height: 70px;
+	margin-bottom: 10px;
+	height: 80px;
+	line-height: 80px;
 }
 
+#tempo-helpers {
+	margin-top: 10px;
+}
 #tempo-helpers button {
 	font-size: 125%;
 }
@@ -84,22 +86,18 @@ button:hover {
 #visual-target {
 	font-size: 300%;
 }
-
-.downbeat #visual-target {
-	color: red;
-}
-
+.downbeat #visual-target,
 .strong #visual-target {
-	color: blue;
+	font-size: 400%;
 }
-
-.weak #visual-target {
-	color: black;
+.downbeat #visual-target {
+	font-weight: bold;
 }
 
 @media(max-width: 768px) {
 	#metronome {
 		height: 380px;
+		border-width: 0px;
 	}
 	#options {
 		display: none;

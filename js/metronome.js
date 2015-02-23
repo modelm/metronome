@@ -109,7 +109,7 @@ var Metronome = {
 				}
 			}
 
-			console.log('metronome parsed time: ', Metronome.time, Metronome.groupings, Metronome.strongBeats);
+			console.log('metronome parsed time: ', Metronome.time, ' groupings: ', Metronome.groupings, ' strong beats: ', Metronome.strongBeats);
 		}
 	},
 
@@ -127,9 +127,9 @@ var Metronome = {
 			Metronome.addToTempo(10);
 		}
 
+		// start/stop
 		document.getElementById('start').onclick = Metronome.start;
 		document.getElementById('stop').onclick = Metronome.stop;
-
 		Mousetrap.bind('space', function() {
 			if (Metronome.interval) {
 				Metronome.stop();
@@ -139,26 +139,27 @@ var Metronome = {
 			return false;
 		});
 
+		// tempo / beats per minute
 		document.getElementById('tempo').onkeyup = function() {
 			if (Metronome.interval) {
 				Metronome.restart();
 			}
 		}
-
 		document.getElementById('tempo').onchange = function() {
 			if (this.value === '' || parseInt(this.value) < 1) {
 				this.value = 120;
 			}
 		}
 
+		// time / beats per measure
 		document.getElementById('time').onkeyup = Metronome.parseTime;
-
 		document.getElementById('time').onchange = function() {
 			if (this.value === '') {
 				this.value = 0;
 			}
 		}
 
+		// increment/decrement
 		document.getElementById('minus10').onclick = decrementTempoBig;
 		Mousetrap.bind('left', decrementTempoBig);
 
@@ -171,6 +172,7 @@ var Metronome = {
 		document.getElementById('plus1').onclick = incrementTempoSmall;
 		Mousetrap.bind('up', incrementTempoSmall);
 
+		// small window popout
 		document.getElementById('popout').onclick = function(){
 			Metronome.stop();
 			window.open('index.html', '_blank', 'width=250,height=300,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
@@ -178,6 +180,7 @@ var Metronome = {
 
 		document.getElementById('show-help').onclick = function() {
 			var lines = [];
+
 			lines.push('tempo can be any positive integer');
 
 			lines.push('\n\nbeats per minute can be either:\n');
@@ -190,7 +193,9 @@ var Metronome = {
 			lines.push('• down arrow: decrement tempo by 1');
 			lines.push('• left arrow: decrement tempo by 10');
 			lines.push('• right arrow: increment tempo by 10');
+
 			alert(lines.join('\n'));
+
 			return false;
 		};
 	},

@@ -19,6 +19,7 @@ input:hover {
 button {
 	border: 1px solid #c0c0c0;
 	background-color: #f0f0f0;
+	padding: 5px;
 }
 
 button:hover {
@@ -97,6 +98,12 @@ button:hover {
 }
 
 @media(max-width: 768px) {
+	#metronome {
+		height: 380px;
+	}
+	#options {
+		display: none;
+	}
 	#metronome-advanced-controls {
 		display: none;
 	}

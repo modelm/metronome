@@ -13,7 +13,11 @@ var Metronome = {
 
 	strongBeats: [], // strong beats discovered by parsing the time input will be appended to this
 
+	taps: [], // will contain times when the tap button was clicked (shift()ed every tap after the second one)
+
 	context: new(window.audioContext || window.webkitAudioContext), // audio context in which to create and use the tone generator
+
+	tempoInput: document.getElementById('tempo'),
 
 	tick: function() {
 		var osc = Metronome.context.createOscillator();
@@ -50,8 +54,10 @@ var Metronome = {
 	},
 
 	start: function() {
-		var tempo = document.getElementById('tempo').value || 120;
+		var tempo = parseInt(Metronome.tempoInput.value) || 120;
 		var beepInterval = (60 / tempo) * 1000;
+
+		Metronome.tempoInput.value = tempo; // just in case a bad value made it in here somehow, set it to what we're actually using
 
 		if (tempo > 0) {
 			if (Metronome.interval !== null) window.clearInterval(Metronome.interval);
@@ -80,8 +86,7 @@ var Metronome = {
 	},
 
 	addToTempo: function(difference) {
-		var tempoInput = document.getElementById('tempo');
-		tempoInput.value = parseInt(tempoInput.value) + difference;
+		Metronome.tempoInput.value = parseInt(Metronome.tempoInput.value) + difference;
 		if (Metronome.interval !== null) Metronome.start();
 	},
 
@@ -178,6 +183,30 @@ var Metronome = {
 			window.open('index.html', '_blank', 'width=250,height=300,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
 		}
 
+		// tap tempo
+		document.getElementById('tap').onclick = function() {
+			Metronome.taps.push(Metronome.context.currentTime);
+
+			if (Metronome.taps.length > 2) {
+				Metronome.taps.shift();
+			}
+
+			if (Metronome.taps.length > 1) {
+				document.getElementById('tempo').value = (function() {
+					var secondsSinceLastTap = Metronome.taps[1] - Metronome.taps[0];
+
+					console.log('metronome seconds since last tap: ', secondsSinceLastTap);
+
+					return Math.floor(60 / secondsSinceLastTap);
+				})();
+			}
+
+			if (Metronome.interval) Metronome.start();
+
+			console.log('metronome taps: ', Metronome.taps);
+		}
+
+		// help
 		document.getElementById('show-help').onclick = function() {
 			var lines = [];
 

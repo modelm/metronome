@@ -70,6 +70,12 @@ var Metronome = {
 
 		Metronome.tempoInput.value = tempo; // just in case a bad value made it in here somehow, set it to what we're actually using
 
+		// ios does not play html5 audio on a page unless first triggered by a user interaction event like this
+		var osc = Metronome.context.createOscillator();
+		osc.connect(Metronome.context.destination);
+		osc.start(Metronome.context.currentTime);
+		osc.stop(Metronome.context.currentTime);
+
 		if (tempo > 0) {
 			if (Metronome.interval !== null) window.clearInterval(Metronome.interval);
 			Metronome.interval = window.setInterval(Metronome.tick, tickInterval);
@@ -85,7 +91,7 @@ var Metronome = {
 		window.clearInterval(Metronome.interval);
 		Metronome.interval = null;
 		Metronome.beat = 0;
-		document.getElementById('visual-target').innerHTML = '';
+		document.getElementById('visual-target').innerHTML = '&nbsp;';
 		document.getElementById('start').style.display = '';
 		document.getElementById('stop').style.display = 'none';
 		console.log('metronome stopped');
@@ -221,10 +227,18 @@ var Metronome = {
 		document.getElementById('stop').onclick = Metronome.stop;
 
 		// increment/decrement buttons
-		document.getElementById('minus10').onclick = Mousetrap.trigger('left');
-		document.getElementById('plus10').onclick = Mousetrap.trigger('right');
-		document.getElementById('minus1').onclick = Mousetrap.trigger('down');
-		document.getElementById('plus1').onclick = Mousetrap.trigger('up');
+		document.getElementById('minus10').onclick = function() {
+			Mousetrap.trigger('left');
+		}
+		document.getElementById('plus10').onclick = function() {
+			Mousetrap.trigger('right');
+		}
+		document.getElementById('minus1').onclick = function() {
+			Mousetrap.trigger('down');
+		}
+		document.getElementById('plus1').onclick = function() {
+			Mousetrap.trigger('up');
+		}
 
 		// tap tempo button
 		document.getElementById('tap').onclick = Metronome.handleTap;
@@ -240,10 +254,16 @@ var Metronome = {
 	},
 
 	init: function() {
-		Metronome.tempoInput.value = localStorage.getItem('metronome.tempo');
-		Metronome.timeInput.value = localStorage.getItem('metronome.time');
+		Metronome.tempoInput.value = localStorage.getItem('metronome.tempo') || Metronome.defaults.tempo;
+		Metronome.timeInput.value = localStorage.getItem('metronome.time') || Metronome.defaults.time;
 		Metronome.parseTime();
 		Metronome.bindControls();
+
+		// this is necessary for ios to actually play the tick more than once
+		var osc = Metronome.context.createOscillator();
+		osc.connect(Metronome.context.destination);
+		osc.start(Metronome.context.currentTime);
+		osc.stop(Metronome.context.currentTime);
 	}
 }
 

@@ -32,7 +32,7 @@ button:hover {
 	left: 10px;
 }
 #metronome-advanced-controls * {
-	font-size: 125%;
+	font-size: 1.25em;
 }
 
 #show-help {
@@ -45,7 +45,6 @@ button:hover {
 	border: 1px solid #c0c0c0;
 	text-align: center;
 	width: 318px;
-	height: 458px;
 	vertical-align: middle;
 	margin: auto;
 	position: absolute;
@@ -57,22 +56,16 @@ button:hover {
 }
 
 #metronome > div {
-	margin-bottom: 10px;
-	height: 80px;
-	line-height: 80px;
+	padding: 10px 0;
 }
 
-#tempo-helpers {
-	margin-top: 10px;
-}
 #tempo-helpers button {
-	font-size: 125%;
+	font-size: 1.25em;
 }
 
 #tempo {
-	font-size: 300%;
+	font-size: 3em;
 	width: 4em;
-	height: 60px;
 }
 
 #time {
@@ -80,23 +73,21 @@ button:hover {
 }
 
 #controls button {
-	font-size: 300%;
+	font-size: 3em;
 }
 
 #visual-target {
-	font-size: 300%;
+	font-size: 3em;
+	font-weight: lighter;
 }
+
 .downbeat #visual-target,
 .strong #visual-target {
-	font-size: 400%;
-}
-.downbeat #visual-target {
-	font-weight: bold;
+	font-weight: bolder;
 }
 
 @media(max-width: 768px) {
 	#metronome {
-		height: 380px;
 		border-width: 0px;
 	}
 	#options {

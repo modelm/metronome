@@ -177,7 +177,10 @@ var Metronome = {
 	bindControls: function() {
 		// keyboard shortcuts
 		Mousetrap.bindGlobal('?', Metronome.showHelp);
-		Mousetrap.bindGlobal('.', Metronome.handleTap);
+		Mousetrap.bindGlobal('.', function(e) {
+			e.preventDefault();
+			Metronome.handleTap();
+		});
 		Mousetrap.bindGlobal('t', function(e) {
 			e.preventDefault();
 			Metronome.tempoInput.focus();
@@ -185,6 +188,14 @@ var Metronome = {
 		Mousetrap.bindGlobal('b', function(e) {
 			e.preventDefault();
 			Metronome.timeInput.focus();
+		});
+		Mousetrap.bindGlobal('space', function(e) { // start if stopped; stop if started
+			e.preventDefault();
+			if (Metronome.interval) {
+				Metronome.stop();
+			} else {
+				Metronome.start();
+			}
 		});
 		Mousetrap.bindGlobal('up', function() {
 			Metronome.addToTempo(1);
@@ -197,13 +208,6 @@ var Metronome = {
 		});
 		Mousetrap.bindGlobal('left', function() {
 			Metronome.addToTempo(-10);
-		});
-		Mousetrap.bindGlobal('space', function() { // start if stopped; stop if started
-			if (Metronome.interval) {
-				Metronome.stop();
-			} else {
-				Metronome.start();
-			}
 		});
 
 		// tempo / beats per minute

@@ -156,7 +156,7 @@ var Metronome = {
 			})();
 		}
 
-		if (Metronome.interval) Metronome.start();
+		Metronome.parseTempo();
 		console.log('metronome taps: ', Metronome.taps);
 	},
 

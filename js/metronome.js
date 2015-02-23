@@ -19,8 +19,8 @@ var Metronome = {
 
 	frequencies: {
 		DOWNBEAT: 4000,
-		STRONG: 3000,
-		WEAK: 2000,
+		STRONG: 5000,
+		WEAK: 6000,
 	},
 
 	tempoInput: document.getElementById('tempo'),

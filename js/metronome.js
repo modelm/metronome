@@ -2,12 +2,16 @@
  * depends on Mousetrap for keyboard shortcuts: http://craig.is/killing/mice
  */
 
+var getRandomInt = function(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 var Metronome = {
 	interval: null, // used to store the result of setInterval() while ticking
 
 	beat: 0, // beat counter, reset to 1 on downbeats
 
-	time: 0, // the time signature
+	time: 0, // the time signature beats per measure
 
 	groupings: [], // if the time signature is asymmetric, this will contain each group. otherwise it will contain only one element: beats per measure
 
@@ -162,9 +166,9 @@ var Metronome = {
 
 	showHelp: function() {
 		var lines = [
-			'beats per minute can be either of the following:\n',
+			'beats per measure can be either of the following:\n',
 			'• "0" (no grouping)',
-			'• one or more numbers separated by "+", e.g. "4", "2+3", "3+2+2"',
+			'• one or more numbers separated by "+" e.g. "4", "2+3", "3+2+2"',
 			'\n\n',
 			'keyboard shortcuts:\n',
 			'• space - start/stop',
@@ -270,6 +274,30 @@ var Metronome = {
 			Metronome.stop();
 			window.open('index.html', '_blank', 'width=320,height=400,resizable=no,scrollbars=no,menubar=no,location=no,status=no,toolbar=no');
 		}
+
+		// randomize
+		document.getElementById('randomize-tempo').onclick = Metronome.randomizeTempo;
+		document.getElementById('randomize-time').onclick = Metronome.randomizeTime;
+		document.getElementById('randomize-both').onclick = function() {
+			Metronome.randomizeTempo();
+			Metronome.randomizeTime();
+		}
+	},
+
+	randomizeTempo: function() {
+		Metronome.tempoInput.value = getRandomInt(25, 960);
+		Metronome.parseTempo();
+	},
+
+	randomizeTime: function() {
+		var groups = [];
+
+		for (var i = 0; i < getRandomInt(0, 3); i++) {
+			groups.push(getRandomInt(2, 4));
+		}
+
+		Metronome.timeInput.value = groups.join('+');
+		Metronome.parseTime();
 	},
 
 	init: function() {
@@ -277,6 +305,7 @@ var Metronome = {
 
 		Metronome.tempoInput.value = localStorage.getItem('metronome.tempo') || Metronome.defaults.tempo;
 		Metronome.timeInput.value = localStorage.getItem('metronome.time') || Metronome.defaults.time;
+		Metronome.parseTempo();
 		Metronome.parseTime();
 		Metronome.bindControls();
 	}

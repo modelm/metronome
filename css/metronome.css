@@ -31,8 +31,9 @@ button:hover {
 	top: 10px;
 	left: 10px;
 }
-#metronome-advanced-controls * {
-	font-size: 1.25em;
+#metronome-advanced-controls button {
+	display: block;
+	margin-bottom: 10px;
 }
 
 #show-help {
@@ -70,6 +71,10 @@ button:hover {
 
 #time {
 	width: 4em;
+}
+
+button#reset-time {
+	padding: 0 5px;
 }
 
 #controls button {

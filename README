@@ -1,11 +1,3 @@
-I didn't like any of the metronome apps/websites I found, so I made my own.
-
-I tend to use a metronome to practice at a slow pace and gradually speed things up, so I included buttons to easily increment and decrement the tempo.
-
-My hands are busy enough when I'm practicing so I made start/stop and tempo adjustments more easily accessible via keyboard shortcuts on the arrow keys and spacebar.
-
-I also like to be able to practice subdivisions by setting a quicker tempo than I could with most other metronomes (most seem to limit you to 240 BPM), so there is no upper limit on the tempo. If you set a very high tempo it may be uneven or your computer might catch fire.
-
 KNOWN BUGS
 
 1. If you open the metronome in a tab with a tempo > 60 BPM and focus a different tab, the de-focused metronome tab only plays at most 60 BPM. This is a byproduct of using setInterval() I think and I'm not sure of the best way around it yet. To mitigate this I use the "small window popout" button which opens a new small window which retains the correct tempo when it's de-focused unlike a tab.
@@ -15,4 +7,3 @@ KNOWN BUGS
 TODO
 
 1. tone generator / tuner
-2. options to change tick pitch/type

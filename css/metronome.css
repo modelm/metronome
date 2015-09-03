@@ -35,6 +35,13 @@ button:hover {
 	display: block;
 	margin-bottom: 10px;
 }
+#metronome-advanced-controls label {
+	display: inline-block;
+	width: 5em;
+}
+#metronome-advanced-controls input {
+	width: 4em;
+}
 
 #show-help {
 	position: absolute;

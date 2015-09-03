@@ -24,17 +24,25 @@ var Metronome = {
 	defaults: {
 		tempo: 120,
 		time: 0,
+		duration: 0.01,
+		frequencies: {
+			downbeat: 2500,
+			strong: 2000,
+			weak: 1500,
+		},
 	},
 
-	frequencies: {
-		DOWNBEAT: 4000,
-		STRONG: 5000,
-		WEAK: 6000,
+	inputs: {
+		tempo: document.getElementById('tempo'),
+		time: document.getElementById('time'),
+		duration: document.getElementById('duration'),
+		frequencies: {
+			downbeat: document.getElementById('frequency-downbeat'),
+			strong: document.getElementById('frequency-strong'),
+			weak: document.getElementById('frequency-weak'),
+		}
 	},
 
-	tempoInput: document.getElementById('tempo'),
-
-	timeInput: document.getElementById('time'),
 
 	tick: function() {
 		var osc = Metronome.context.createOscillator();
@@ -47,13 +55,13 @@ var Metronome = {
 
 		// determine & set beat type: downbeat, strong beat, or weak beat
 		if ((Metronome.time !== '0') && (Metronome.beat === 1)) {
-			osc.frequency.value = Metronome.frequencies.DOWNBEAT;
+			osc.frequency.value = Metronome.inputs.frequencies.downbeat.value;
 			document.getElementById('metronome').className = 'downbeat';
 		} else if ((Metronome.time !== '0') && (Metronome.strongBeats.indexOf(Metronome.beat) > -1)) {
-			osc.frequency.value = Metronome.frequencies.STRONG;
+			osc.frequency.value = Metronome.inputs.frequencies.strong.value;
 			document.getElementById('metronome').className = 'strong';
 		} else {
-			osc.frequency.value = Metronome.frequencies.WEAK;
+			osc.frequency.value = Metronome.inputs.frequencies.weak.value;
 			document.getElementById('metronome').className = 'weak';
 		}
 
@@ -63,16 +71,16 @@ var Metronome = {
 		// audio tick
 		osc.connect(Metronome.context.destination);
 		osc.start(Metronome.context.currentTime);
-		osc.stop(Metronome.context.currentTime + 0.0005);
+		osc.stop(Metronome.context.currentTime + Metronome.defaults.duration);
 
 		console.log('metronome tick');
 	},
 
 	start: function() {
-		var tempo = parseInt(Metronome.tempoInput.value) || Metronome.defaults.tempo;
+		var tempo = parseInt(Metronome.inputs.tempo.value) || Metronome.defaults.tempo;
 		var tickInterval = (60 / tempo) * 1000;
 
-		Metronome.tempoInput.value = tempo; // just in case a bad value made it in here somehow, set it to what we're actually using
+		Metronome.inputs.tempo.value = tempo; // just in case a bad value made it in here somehow, set it to what we're actually using
 
 		// ios does not play html5 audio on a page unless first triggered by a user interaction event like this
 		var osc = Metronome.context.createOscillator();
@@ -107,18 +115,18 @@ var Metronome = {
 	},
 
 	addToTempo: function(difference) {
-		Metronome.tempoInput.value = parseInt(Metronome.tempoInput.value) + difference;
+		Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + difference;
 		Metronome.parseTempo();
 	},
 
 	parseTime: function() {
-		Metronome.timeInput.value = Metronome.timeInput.value.replace(/[^1-9\+]/g, ''); // remove characters which are not numbers or '+'
-		Metronome.timeInput.value = Metronome.timeInput.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
+		Metronome.inputs.time.value = Metronome.inputs.time.value.replace(/[^1-9\+]/g, ''); // remove characters which are not numbers or '+'
+		Metronome.inputs.time.value = Metronome.inputs.time.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
 
-		if (!/^\+/.test(Metronome.timeInput.value) && !/\+$/.test(Metronome.timeInput.value)) { // ignore input beginning or ending with '+'
-			if (!Metronome.timeInput.value.length) Metronome.timeInput.value = Metronome.defaults.time;
+		if (!/^\+/.test(Metronome.inputs.time.value) && !/\+$/.test(Metronome.inputs.time.value)) { // ignore input beginning or ending with '+'
+			if (!Metronome.inputs.time.value.length) Metronome.inputs.time.value = Metronome.defaults.time;
 
-			Metronome.time = Metronome.timeInput.value;
+			Metronome.time = Metronome.inputs.time.value;
 			Metronome.groupings = Metronome.time.split('+');
 			Metronome.strongBeats = [1];
 
@@ -137,10 +145,10 @@ var Metronome = {
 	},
 
 	parseTempo: function() {
-		Metronome.tempoInput.value = Metronome.tempoInput.value.replace(/[^0-9]/g, ''); // remove non-numeric characters
+		Metronome.inputs.tempo.value = Metronome.inputs.tempo.value.replace(/[^0-9]/g, ''); // remove non-numeric characters
 
-		localStorage.setItem('metronome.tempo', Metronome.tempoInput.value);
-		console.log('metronome parsed tempo: ', Metronome.tempoInput.value, ' localStorage metronome.tempo: ', localStorage.getItem('metronome.tempo'));
+		localStorage.setItem('metronome.tempo', Metronome.inputs.tempo.value);
+		console.log('metronome parsed tempo: ', Metronome.inputs.tempo.value, ' localStorage metronome.tempo: ', localStorage.getItem('metronome.tempo'));
 
 		if (Metronome.interval) Metronome.restart();
 	},
@@ -196,11 +204,11 @@ var Metronome = {
 		});
 		Mousetrap.bindGlobal('t', function(e) {
 			e.preventDefault();
-			Metronome.tempoInput.focus();
+			Metronome.inputs.tempo.focus();
 		});
 		Mousetrap.bindGlobal('b', function(e) {
 			e.preventDefault();
-			Metronome.timeInput.focus();
+			Metronome.inputs.time.focus();
 		});
 		Mousetrap.bindGlobal('space', function(e) { // start if stopped; stop if started
 			e.preventDefault();
@@ -211,7 +219,7 @@ var Metronome = {
 			}
 		});
 		Mousetrap.bindGlobal('n', function() {
-			Metronome.addToTempo(-Math.floor(parseInt(Metronome.tempoInput.value)/2));
+			Metronome.addToTempo(-Math.floor(parseInt(Metronome.inputs.tempo.value)/2));
 		});
 		Mousetrap.bindGlobal('up', function() {
 			Metronome.addToTempo(1);
@@ -226,16 +234,16 @@ var Metronome = {
 			Metronome.addToTempo(-10);
 		});
 		Mousetrap.bindGlobal('m', function() {
-			Metronome.addToTempo(parseInt(Metronome.tempoInput.value));
+			Metronome.addToTempo(parseInt(Metronome.inputs.tempo.value));
 		});
 
 		// tempo / beats per minute
-		Metronome.tempoInput.onkeyup = Metronome.parseTempo;
+		Metronome.inputs.tempo.onkeyup = Metronome.parseTempo;
 
 		// time / beats per measure
-		Metronome.timeInput.onkeyup = Metronome.parseTime;
+		Metronome.inputs.time.onkeyup = Metronome.parseTime;
 		document.getElementById('reset-time').onclick = function() {
-			Metronome.timeInput.value = '';
+			Metronome.inputs.time.value = '';
 			Metronome.parseTime();
 		}
 
@@ -285,7 +293,7 @@ var Metronome = {
 	},
 
 	randomizeTempo: function() {
-		Metronome.tempoInput.value = getRandomInt(25, 960);
+		Metronome.inputs.tempo.value = getRandomInt(25, 960);
 		Metronome.parseTempo();
 	},
 
@@ -296,15 +304,22 @@ var Metronome = {
 			groups.push(getRandomInt(2, 4));
 		}
 
-		Metronome.timeInput.value = groups.join('+');
+		Metronome.inputs.time.value = groups.join('+');
 		Metronome.parseTime();
 	},
 
 	init: function() {
 		console.log(localStorage);
 
-		Metronome.tempoInput.value = localStorage.getItem('metronome.tempo') || Metronome.defaults.tempo;
-		Metronome.timeInput.value = localStorage.getItem('metronome.time') || Metronome.defaults.time;
+		Metronome.inputs.tempo.value = localStorage.getItem('metronome.tempo') || Metronome.defaults.tempo;
+		Metronome.inputs.time.value = localStorage.getItem('metronome.time') || Metronome.defaults.time;
+
+		Metronome.inputs.duration.value = localStorage.getItem('metronome.duration') || Metronome.defaults.duration;
+
+		Metronome.inputs.frequencies.downbeat.value = localStorage.getItem('metronome.frequencies.downbeat') || Metronome.defaults.frequencies.downbeat;
+		Metronome.inputs.frequencies.strong.value = localStorage.getItem('metronome.frequencies.strong') || Metronome.defaults.frequencies.strong;
+		Metronome.inputs.frequencies.weak.value = localStorage.getItem('metronome.frequencies.weak') || Metronome.defaults.frequencies.weak;
+
 		Metronome.parseTempo();
 		Metronome.parseTime();
 		Metronome.bindControls();

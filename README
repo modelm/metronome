@@ -3,7 +3,6 @@ FEATURES
 * tempo can be any positive integer
 * beats per minute can be any number of integers delimited by "+" to handle complex time signatures, beat grouping, subdivision, etc.
 * buttons to increment and decrement tempo by 1 and 10 as well as double or halve
-* small window popout to work around de-focused tabs being limited to 60 BPM
 * configurable frequencies (downbeat, strong beat, and weak beat) - can be any positive integer
 * configurable tick duration - can be any positive number (for very short durations, some browsers will not play an audible sound)
 * custom settings are automatically saved and restored

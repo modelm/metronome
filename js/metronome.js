@@ -333,6 +333,7 @@ var Metronome = {
 		Metronome.tuner.frequency.value = Metronome.settings.frequencies.tuner;
 		Metronome.tuner.connect(Metronome.context.destination);
 		Metronome.tuner.start();
+		return false;
 	},
 
 	stopTuner: function() {
@@ -340,6 +341,7 @@ var Metronome = {
 		document.getElementById('stop-tuner').style.display = 'none';
 		Metronome.tuner.stop();
 		Metronome.tuner = false;
+		return false;
 	},
 
 	save: function() {
@@ -378,6 +380,7 @@ var Metronome = {
 	reset: function() {
 		localStorage.removeItem('Metronome');
 		location.reload();
+		return false;
 	},
 
 	init: function() {

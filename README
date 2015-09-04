@@ -6,5 +6,4 @@ KNOWN BUGS
 
 TODO
 
-1. tone generator / tuner
-2. store advanced settings in localStorage
+* store advanced settings in localStorage

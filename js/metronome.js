@@ -19,7 +19,9 @@ var Metronome = {
 
 	taps: [], // will contain times when the tap button was clicked (shift()ed every tap after the second one)
 
-	context: new (window.AudioContext || window.webkitAudioContext), // audio context in which to create and use the tone generator
+	context: new (window.AudioContext || window.webkitAudioContext), // audio context in which to create and use the tick tone generator
+
+	tuner: false, // keeps track of the oscillator used for the tuning tone generator (false while tuner is off)
 
 	defaults: {
 		tempo: 120,
@@ -29,6 +31,7 @@ var Metronome = {
 			downbeat: 2500,
 			strong: 2000,
 			weak: 1500,
+			tuner: 440,
 		},
 	},
 
@@ -40,6 +43,7 @@ var Metronome = {
 			downbeat: document.getElementById('frequency-downbeat'),
 			strong: document.getElementById('frequency-strong'),
 			weak: document.getElementById('frequency-weak'),
+			tuner: document.getElementById('frequency-tuner'),
 		}
 	},
 
@@ -290,6 +294,11 @@ var Metronome = {
 			Metronome.randomizeTempo();
 			Metronome.randomizeTime();
 		}
+
+		// tuner start/stop buttons
+		document.getElementById('start-tuner').onclick = Metronome.startTuner;
+		document.getElementById('stop-tuner').onclick = Metronome.stopTuner;
+		Metronome.inputs.frequencies.tuner.onkeyup = Metronome.parseTuner;
 	},
 
 	randomizeTempo: function() {
@@ -308,6 +317,29 @@ var Metronome = {
 		Metronome.parseTime();
 	},
 
+	parseTuner: function() {
+		if (Metronome.tuner) {
+			Metronome.stopTuner();
+			Metronome.startTuner();
+		}
+	},
+
+	startTuner: function() {
+		document.getElementById('start-tuner').style.display = 'none';
+		document.getElementById('stop-tuner').style.display = 'block';
+		Metronome.tuner = Metronome.context.createOscillator();
+		Metronome.tuner.frequency.value = Metronome.inputs.frequencies.tuner.value;
+		Metronome.tuner.connect(Metronome.context.destination);
+		Metronome.tuner.start();
+	},
+
+	stopTuner: function() {
+		document.getElementById('start-tuner').style.display = 'block';
+		document.getElementById('stop-tuner').style.display = 'none';
+		Metronome.tuner.stop();
+		Metronome.tuner = false;
+	},
+
 	init: function() {
 		console.log(localStorage);
 
@@ -319,10 +351,13 @@ var Metronome = {
 		Metronome.inputs.frequencies.downbeat.value = localStorage.getItem('metronome.frequencies.downbeat') || Metronome.defaults.frequencies.downbeat;
 		Metronome.inputs.frequencies.strong.value = localStorage.getItem('metronome.frequencies.strong') || Metronome.defaults.frequencies.strong;
 		Metronome.inputs.frequencies.weak.value = localStorage.getItem('metronome.frequencies.weak') || Metronome.defaults.frequencies.weak;
+		Metronome.inputs.frequencies.tuner.value = localStorage.getItem('metronome.frequencies.tuner') || Metronome.defaults.frequencies.tuner;
 
 		Metronome.parseTempo();
 		Metronome.parseTime();
 		Metronome.bindControls();
+
+		document.getElementById('stop-tuner').style.display = 'none';
 	}
 }
 

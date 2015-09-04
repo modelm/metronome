@@ -37,10 +37,17 @@ button:hover {
 }
 #metronome-advanced-controls label {
 	display: inline-block;
-	width: 5em;
+	width: 6em;
 }
 #metronome-advanced-controls input {
 	width: 4em;
+}
+
+#start-tuner,
+#stop-tuner {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
 }
 
 #show-help {

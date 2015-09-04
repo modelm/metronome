@@ -17,6 +17,10 @@
 			<button id="randomize-time">randomize beats per measure</button>
 			<button id="randomize-both">randomize both</button>
 			<div>
+				<label for="frequency-tuner">tuner</label>
+				<input name="frequency-tuner" id="frequency-tuner" type="number" min="0"> Hz
+			</div>
+			<div>
 				<label for="duration">duration</label>
 				<input name="duration" id="duration" type="number" min="0" step="0.01"> seconds
 			</div>
@@ -25,11 +29,11 @@
 				<input name="frequency-downbeat" id="frequency-downbeat" type="number" min="0"> Hz
 			</div>
 			<div>
-				<label for="frequency-strong">strong</label>
+				<label for="frequency-strong">strong beat</label>
 				<input name="frequency-strong" id="frequency-strong" type="number" min="0"> Hz
 			</div>
 			<div>
-				<label for="frequency-weak">weak</label>
+				<label for="frequency-weak">weak beat</label>
 				<input name="frequency-weak" id="frequency-weak" type="number" min="0"> Hz
 			</div>
 		</div>
@@ -59,6 +63,9 @@
 			</div>
 
 			<div id="visual-target">&nbsp;</div>
+
+			<a id="start-tuner" href="#">start tuner</a>
+			<a id="stop-tuner" href="#">stop tuner</a>
 
 			<a id="show-help" href="#">help</a>
 		</div>

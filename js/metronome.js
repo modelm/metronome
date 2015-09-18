@@ -242,12 +242,6 @@ var Metronome = {
 			Metronome.addToTempo(parseInt(Metronome.inputs.tempo.value));
 		});
 
-		// time / beats per measure
-		document.getElementById('reset-time').onclick = function() {
-			Metronome.inputs.time.value = '';
-			Metronome.save();
-		}
-
 		// start/stop buttons
 		document.getElementById('start').onclick = Metronome.start;
 		document.getElementById('stop').onclick = Metronome.stop;

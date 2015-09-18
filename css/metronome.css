@@ -87,10 +87,6 @@ button:hover {
 	width: 4em;
 }
 
-button#reset-time {
-	padding: 0 5px;
-}
-
 #controls button {
 	font-size: 3em;
 }

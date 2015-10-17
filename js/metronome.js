@@ -317,7 +317,7 @@ var Metronome = {
 		}
 
 		Metronome.inputs.time.value = groups.join('+');
-		Metronome.parseTime();
+		Metronome.save();
 	},
 
 	startTuner: function() {

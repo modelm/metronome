@@ -45,7 +45,6 @@ var Metronome = {
 		}
 	},
 
-
 	tick: function() {
 		var osc = Metronome.context.createOscillator();
 

@@ -195,7 +195,7 @@ var Metronome = {
 	showHelp: function() {
 		var lines = [
 			'beats per measure can be either of the following:\n',
-			'• "0" (no grouping)',
+			'• "" or "0" (no grouping)',
 			'• one or more numbers separated by "+" e.g. "4", "2+3", "3+2+2"',
 			'\n\n',
 			'keyboard shortcuts:\n',
@@ -204,7 +204,11 @@ var Metronome = {
 			'• down - decrement tempo by 1',
 			'• left - decrement tempo by 10',
 			'• right - increment tempo by 10',
-			'• . - tap tempo',
+			'• n - halve tempo',
+			'• m - double tempo',
+			'• j - third tempo',
+			'• k - triple tempo',
+			'• . - tap',
 			'• b - focus beats per measure',
 			'• t - focus tempo',
 			'• ? - show this help',

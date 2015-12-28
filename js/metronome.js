@@ -181,7 +181,8 @@ var Metronome = {
 			})();
 		}
 
-		Metronome.parseTempo();
+		Metronome.save();
+
 		if (Metronome.settings.debug) {
 			console.log('metronome taps: ', Metronome.taps);
 		}

@@ -114,7 +114,7 @@ var Metronome = {
 		Metronome.inputs.time.value = Metronome.inputs.time.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
 
 		if (!/^\+/.test(Metronome.inputs.time.value) && !/\+$/.test(Metronome.inputs.time.value)) { // ignore input beginning or ending with '+'
-			Metronome.settings.time = Metronome.inputs.time.value;
+			Metronome.settings.time = Metronome.inputs.time.value || '0';
 			Metronome.groupings = Metronome.settings.time.split('+');
 			Metronome.strongBeats = [1];
 

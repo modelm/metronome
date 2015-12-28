@@ -166,7 +166,7 @@ var Metronome = {
 		}
 
 		if (Metronome.taps.length > 1) {
-			document.getElementById('tempo').value = (function () {
+			Metronome.inputs.tempo.value = (function () {
 				var secondsSinceLastTap = Metronome.taps[1] - Metronome.taps[0];
 				if (Metronome.settings.debug) {
 					console.log('metronome seconds since last tap: ', secondsSinceLastTap);

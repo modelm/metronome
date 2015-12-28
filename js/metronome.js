@@ -76,8 +76,6 @@ var Metronome = {
 	},
 
 	start: function () {
-		var tickInterval = (60 / Metronome.settings.tempo) * 1000;
-
 		// ios does not play html5 audio on a page unless first triggered by a user interaction event like this
 		var osc = Metronome.context.createOscillator();
 		osc.connect(Metronome.context.destination);
@@ -87,7 +85,7 @@ var Metronome = {
 		if (Metronome.interval !== null) {
 			window.clearInterval(Metronome.interval);
 		}
-		Metronome.interval = window.setInterval(Metronome.tick, tickInterval);
+		Metronome.interval = window.setInterval(Metronome.tick, (60 / Metronome.settings.tempo) * 1000);
 		document.getElementById('start').style.display = 'none';
 		document.getElementById('stop').style.display = '';
 	},
@@ -175,7 +173,7 @@ var Metronome = {
 	},
 
 	showHelp: function () {
-		var lines = [
+		alert([
 			'beats per measure can be either of the following:\n',
 			'• "" or "0" (no groups)',
 			'• one or more numbers separated by "+" e.g. "4", "2+3", "3+2+2"',
@@ -194,9 +192,7 @@ var Metronome = {
 			'• b - focus beats per measure',
 			'• t - focus tempo',
 			'• ? - show this help'
-		];
-
-		alert(lines.join('\n'));
+		].join('\n'));
 
 		return false;
 	},

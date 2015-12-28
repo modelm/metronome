@@ -26,6 +26,11 @@ button:hover {
 	cursor: pointer;
 }
 
+button#plus1,
+button#minus1 {
+	display: none;
+}
+
 #metronome-advanced-controls {
 	position: absolute;
 	top: 10px;

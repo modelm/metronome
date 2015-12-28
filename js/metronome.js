@@ -220,8 +220,11 @@ var Metronome = {
 				Metronome.start();
 			}
 		});
+		Mousetrap.bindGlobal('j', function() {
+			Metronome.addToTempo(-Math.floor(parseInt(Metronome.inputs.tempo.value) / 3 * 2));
+		});
 		Mousetrap.bindGlobal('n', function() {
-			Metronome.addToTempo(-Math.floor(parseInt(Metronome.inputs.tempo.value)/2));
+			Metronome.addToTempo(-Math.floor(parseInt(Metronome.inputs.tempo.value) / 2));
 		});
 		Mousetrap.bindGlobal('up', function() {
 			Metronome.addToTempo(1);
@@ -237,6 +240,9 @@ var Metronome = {
 		});
 		Mousetrap.bindGlobal('m', function() {
 			Metronome.addToTempo(parseInt(Metronome.inputs.tempo.value));
+		});
+		Mousetrap.bindGlobal('k', function() {
+			Metronome.addToTempo(parseInt(Metronome.inputs.tempo.value) * 2);
 		});
 
 		// start/stop buttons

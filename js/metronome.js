@@ -109,11 +109,6 @@ var Metronome = {
 		Metronome.start();
 	},
 
-	addToTempo: function(difference) {
-		Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + difference;
-		Metronome.save();
-	},
-
 	parseTime: function() {
 		Metronome.inputs.time.value = Metronome.inputs.time.value.replace(/[^1-9\+]/g, ''); // remove characters which are not numbers or '+'
 		Metronome.inputs.time.value = Metronome.inputs.time.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
@@ -242,29 +237,37 @@ var Metronome = {
 				Metronome.start();
 			}
 		});
-		Mousetrap.bindGlobal('j', function() {
-			Metronome.addToTempo(-Math.floor(parseInt(Metronome.inputs.tempo.value) / 3 * 2));
-		});
-		Mousetrap.bindGlobal('n', function() {
-			Metronome.addToTempo(-Math.floor(parseInt(Metronome.inputs.tempo.value) / 2));
+		Mousetrap.bindGlobal('down', function() {
+			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 1;
+			Metronome.save();
 		});
 		Mousetrap.bindGlobal('up', function() {
-			Metronome.addToTempo(1);
-		});
-		Mousetrap.bindGlobal('down', function() {
-			Metronome.addToTempo(-1);
-		});
-		Mousetrap.bindGlobal('right', function() {
-			Metronome.addToTempo(10);
+			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + 1;
+			Metronome.save();
 		});
 		Mousetrap.bindGlobal('left', function() {
-			Metronome.addToTempo(-10);
+			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 10;
+			Metronome.save();
+		});
+		Mousetrap.bindGlobal('right', function() {
+			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + 10;
+			Metronome.save();
+		});
+		Mousetrap.bindGlobal('n', function() {
+			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) / 2;
+			Metronome.save();
 		});
 		Mousetrap.bindGlobal('m', function() {
-			Metronome.addToTempo(parseInt(Metronome.inputs.tempo.value));
+			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) * 2;
+			Metronome.save();
+		});
+		Mousetrap.bindGlobal('j', function() {
+			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) / 3;
+			Metronome.save();
 		});
 		Mousetrap.bindGlobal('k', function() {
-			Metronome.addToTempo(parseInt(Metronome.inputs.tempo.value) * 2);
+			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) * 3;
+			Metronome.save();
 		});
 
 		// start/stop buttons

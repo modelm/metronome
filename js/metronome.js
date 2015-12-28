@@ -126,10 +126,13 @@ var Metronome = {
 			for (var i = 0; i < Metronome.groupings.length; i++) {
 				Metronome.groupings[i] = parseInt(Metronome.groupings[i]);
 
-				if (Metronome.strongBeats.length) {
-					Metronome.strongBeats.push(Metronome.groupings[i] + Metronome.strongBeats[Metronome.strongBeats.length - 1]);
-				} else {
-					Metronome.strongBeats.push(Metronome.groupings[i]);
+				// stop 1 shy of the end since final beat & downbeat are one and the same
+				if (i < Metronome.groupings.length - 1) {
+					if (Metronome.strongBeats.length) {
+						Metronome.strongBeats.push(Metronome.groupings[i] + Metronome.strongBeats[Metronome.strongBeats.length - 1]);
+					} else {
+						Metronome.strongBeats.push(Metronome.groupings[i]);
+					}
 				}
 			}
 

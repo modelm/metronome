@@ -424,5 +424,3 @@ var Metronome = {
 		Metronome.bindControls();
 	}
 };
-
-Metronome.init();

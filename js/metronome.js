@@ -104,11 +104,6 @@ var Metronome = {
 		document.getElementById('stop').style.display = 'none';
 	},
 
-	restart: function() {
-		//Metronome.stop();
-		Metronome.start();
-	},
-
 	parseTime: function() {
 		Metronome.inputs.time.value = Metronome.inputs.time.value.replace(/[^1-9\+]/g, ''); // remove characters which are not numbers or '+'
 		Metronome.inputs.time.value = Metronome.inputs.time.value.replace(/\++/g, '+'); // remove extraneous instances of '+'
@@ -142,7 +137,7 @@ var Metronome = {
 	parseTempo: function() {
 		if (parseInt(Metronome.inputs.tempo.value) > 0) {
 			Metronome.settings.tempo = parseInt(Metronome.inputs.tempo.value);
-			if (Metronome.interval) Metronome.restart();
+			if (Metronome.interval) Metronome.start();
 		} else {
 			if (Metronome.settings.debug) {
 				console.warning('tempo must be positive');

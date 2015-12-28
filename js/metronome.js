@@ -9,6 +9,8 @@ var getRandomInt = function(min, max) {
 var Metronome = {
 	interval: null, // used to store the result of setInterval() while ticking
 
+	worker: new Worker('js/metronome-worker.js'), // web worker running the tick function
+
 	beat: 0, // beat counter, reset to 1 on downbeats
 
 	groupings: [], // if the time signature is asymmetric, this will contain each group. otherwise it will contain only one element: beats per measure
@@ -81,8 +83,6 @@ var Metronome = {
 	},
 
 	start: function() {
-		var tickInterval = (60 / Metronome.settings.tempo) * 1000;
-
 		// ios does not play html5 audio on a page unless first triggered by a user interaction event like this
 		var osc = Metronome.context.createOscillator();
 		osc.connect(Metronome.context.destination);
@@ -90,7 +90,7 @@ var Metronome = {
 		osc.stop(Metronome.context.currentTime);
 
 		if (Metronome.interval !== null) window.clearInterval(Metronome.interval);
-		Metronome.interval = window.setInterval(Metronome.tick, tickInterval);
+		Metronome.worker.postMessage('start');
 		document.getElementById('start').style.display = 'none';
 		document.getElementById('stop').style.display = '';
 	},

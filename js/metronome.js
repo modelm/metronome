@@ -71,7 +71,7 @@ var Metronome = {
 		osc.stop(Metronome.context.currentTime + Metronome.settings.duration);
 
 		if (Metronome.settings.debug) {
-			console.log('metronome tick');
+			console.log('tick');
 		}
 	},
 
@@ -170,7 +170,7 @@ var Metronome = {
 		Metronome.save();
 
 		if (Metronome.settings.debug) {
-			console.log('metronome taps: ', Metronome.taps);
+			console.log('taps: ', Metronome.taps);
 		}
 	},
 

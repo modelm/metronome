@@ -268,6 +268,9 @@ var Metronome = {
 		document.getElementById('stop').onclick = Metronome.stop;
 
 		// increment/decrement buttons
+		document.getElementById('third').onclick = function() {
+			Mousetrap.trigger('j');
+		}
 		document.getElementById('halve').onclick = function() {
 			Mousetrap.trigger('n');
 		}
@@ -285,6 +288,9 @@ var Metronome = {
 		}
 		document.getElementById('double').onclick = function() {
 			Mousetrap.trigger('m');
+		}
+		document.getElementById('triple').onclick = function() {
+			Mousetrap.trigger('k');
 		}
 
 		// tap tempo button

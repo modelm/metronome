@@ -120,11 +120,13 @@ var Metronome = {
 			Metronome.groupings = Metronome.settings.time.split('+');
 			Metronome.strongBeats = [1];
 
-			for (var i = 0; i < Metronome.groupings.length - 1; i++) {
+			for (var i = 0; i < Metronome.groupings.length; i++) {
+				Metronome.groupings[i] = parseInt(Metronome.groupings[i]);
+
 				if (Metronome.strongBeats.length) {
-					Metronome.strongBeats.push(parseInt(Metronome.groupings[i]) + Metronome.strongBeats[Metronome.strongBeats.length - 1]);
+					Metronome.strongBeats.push(Metronome.groupings[i] + Metronome.strongBeats[Metronome.strongBeats.length - 1]);
 				} else {
-					Metronome.strongBeats.push(parseInt(Metronome.groupings[i]));
+					Metronome.strongBeats.push(Metronome.groupings[i]);
 				}
 			}
 

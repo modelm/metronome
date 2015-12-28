@@ -31,6 +31,7 @@ var Metronome = {
 			weak: 1500,
 			tuner: 440,
 		},
+		debug: true
 	},
 
 	inputs: {
@@ -74,7 +75,9 @@ var Metronome = {
 		osc.start(Metronome.context.currentTime);
 		osc.stop(Metronome.context.currentTime + Metronome.settings.duration);
 
-		//console.log('metronome tick');
+		if (Metronome.settings.debug) {
+			console.log('metronome tick');
+		}
 	},
 
 	start: function() {
@@ -130,7 +133,11 @@ var Metronome = {
 				}
 			}
 
-			console.log('Metronome parsed time: ', Metronome.settings.time, ' groupings: ', Metronome.groupings, ' strong beats: ', Metronome.strongBeats);
+			if (Metronome.settings.debug) {
+				console.log('time', Metronome.settings.time);
+				console.log('groupings', Metronome.groupings);
+				console.log('strong beats', Metronome.strongBeats);
+			}
 		}
 	},
 
@@ -139,7 +146,9 @@ var Metronome = {
 			Metronome.settings.tempo = parseInt(Metronome.inputs.tempo.value);
 			if (Metronome.interval) Metronome.restart();
 		} else {
-			console.warning('tempo must be positive');
+			if (Metronome.settings.debug) {
+				console.warning('tempo must be positive');
+			}
 		}
 	},
 
@@ -167,13 +176,17 @@ var Metronome = {
 		if (Metronome.taps.length > 1) {
 			document.getElementById('tempo').value = (function() {
 				var secondsSinceLastTap = Metronome.taps[1] - Metronome.taps[0];
-				console.log('metronome seconds since last tap: ', secondsSinceLastTap);
+				if (Metronome.settings.debug) {
+					console.log('metronome seconds since last tap: ', secondsSinceLastTap);
+				}
 				return Math.floor(60 / secondsSinceLastTap);
 			})();
 		}
 
 		Metronome.parseTempo();
-		console.log('metronome taps: ', Metronome.taps);
+		if (Metronome.settings.debug) {
+			console.log('metronome taps: ', Metronome.taps);
+		}
 	},
 
 	showHelp: function() {
@@ -347,8 +360,11 @@ var Metronome = {
 		Metronome.parseTempo();
 		Metronome.parseTime();
 		Metronome.parseFrequencies();
-		console.log(JSON.parse(JSON.stringify(Metronome)));
 		localStorage.setItem('Metronome', JSON.stringify(Metronome));
+
+		if (Metronome.settings.debug) {
+			console.log('saved');
+		}
 	},
 
 	load: function() {
@@ -356,7 +372,6 @@ var Metronome = {
 
 		if (savedMetronome && savedMetronome.settings) {
 			for (var setting in savedMetronome.settings) {
-				//console.log(Metronome.settings[setting], savedMetronome.settings[setting]);
 				Metronome.settings[setting] = savedMetronome.settings[setting];
 			}
 		}
@@ -374,6 +389,10 @@ var Metronome = {
 		Metronome.parseTempo();
 		Metronome.parseTime();
 		Metronome.parseFrequencies();
+
+		if (Metronome.settings.debug) {
+			console.log('loaded');
+		}
 	},
 
 	reset: function() {

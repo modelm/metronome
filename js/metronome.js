@@ -145,8 +145,6 @@ var Metronome = {
 	},
 
 	parseFrequencies: function () {
-		Metronome.settings.duration = parseFloat(Metronome.inputs.duration.value); // not a frequency, but no better place to put it at the moment
-
 		Metronome.settings.frequencies.downbeat = parseInt(Metronome.inputs.frequencies.downbeat.value);
 		Metronome.settings.frequencies.strong = parseInt(Metronome.inputs.frequencies.strong.value);
 		Metronome.settings.frequencies.weak = parseInt(Metronome.inputs.frequencies.weak.value);
@@ -378,6 +376,8 @@ var Metronome = {
 		Metronome.parseTempo();
 		Metronome.parseTime();
 		Metronome.parseFrequencies();
+		Metronome.settings.duration = parseFloat(Metronome.inputs.duration.value);
+
 		localStorage.setItem('Metronome', JSON.stringify(Metronome));
 
 		if (Metronome.settings.debug) {
@@ -409,6 +409,8 @@ var Metronome = {
 		Metronome.parseTempo();
 		Metronome.parseTime();
 		Metronome.parseFrequencies();
+		Metronome.settings.duration = parseFloat(Metronome.inputs.duration.value);
+
 
 		if (Metronome.settings.debug) {
 			console.log('loaded');

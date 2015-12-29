@@ -146,11 +146,9 @@ var Metronome = {
 
 		switch (input) {
 			case Metronome.inputs.tempo:
-				console.log('tempo');
 				Metronome.inputs.tempo.value = getRandomInt(25, 960);
 				break;
 			case Metronome.inputs.time:
-				console.log('time');
 				Metronome.inputs.time.value = (function () {
 					var groups = [];
 					for (var i = 0; i < getRandomInt(0, 3); i += 1) {

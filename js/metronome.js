@@ -1,4 +1,3 @@
-/* jshint evil:true */
 /* globals Mousetrap */
 /* exported Metronome */
 
@@ -45,8 +44,11 @@ var Metronome = {
 
 	tick: function () {
 		var osc = Metronome.context.createOscillator();
+		var finalBeat = Metronome.groups.reduce(function (a, b) {
+			return a + b;
+		});
 
-		if ((Metronome.settings.time !== '0') && (Metronome.beat) >= eval(Metronome.settings.time)) { // downbeat
+		if (Metronome.settings.time !== '0' && Metronome.beat >= finalBeat) { // downbeat
 			Metronome.beat = 1;
 		} else {
 			Metronome.beat += 1;
@@ -182,7 +184,7 @@ var Metronome = {
 						Metronome.strongBeats.push(Metronome.groups[i]);
 					}
 				}
-			}, this);
+			});
 
 			if (Metronome.debug) {
 				console.log('time', Metronome.settings.time);

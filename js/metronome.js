@@ -194,7 +194,7 @@ var Metronome = {
 
 	parseTempo: function () {
 		if (parseInt(Metronome.inputs.tempo.value) > 0) {
-			Metronome.settings.tempo = parseInt(Metronome.inputs.tempo.value);
+			Metronome.inputs.tempo.value = Metronome.settings.tempo = parseInt(Metronome.inputs.tempo.value);
 			if (Metronome.interval) {
 				Metronome.start();
 			}
@@ -276,19 +276,19 @@ var Metronome = {
 			Metronome.save();
 		});
 		Mousetrap.bindGlobal('n', function () {
-			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) / 2;
+			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) / 2);
 			Metronome.save();
 		});
 		Mousetrap.bindGlobal('m', function () {
-			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) * 2;
+			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) * 2);
 			Metronome.save();
 		});
 		Mousetrap.bindGlobal('j', function () {
-			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) / 3;
+			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) / 3);
 			Metronome.save();
 		});
 		Mousetrap.bindGlobal('k', function () {
-			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) * 3;
+			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) * 3);
 			Metronome.save();
 		});
 

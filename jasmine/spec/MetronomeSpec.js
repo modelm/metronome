@@ -15,6 +15,7 @@ describe("Metronome", function() {
 
 	describe("when started", function() {
 		beforeEach(function() {
+			Metronome.parseTime();
 			Metronome.start();
 			Metronome.tick(); // this gets called after a while once start() has run, but we can't wait. would be nice to find a way to make this unnecessary TODO
 		});

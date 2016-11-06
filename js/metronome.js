@@ -12,7 +12,14 @@ var Metronome = {
 
 	taps: [], // will contain times when the tap button was clicked (shift()ed every tap after the second one)
 
-	context: new window.webkitAudioContext() || new window.AudioContext(), // audio context in which to create and use the tick tone generator
+	context: (function () { // audio context in which to create and use the tick tone generator
+		var contextClass = (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext);
+		if (contextClass) {
+			return new contextClass();
+		} else {
+			console.warn('AudioContext not supported');
+		}
+	})(),
 
 	tuner: false, // keeps track of the oscillator used for the tuning tone generator (false while tuner is off)
 

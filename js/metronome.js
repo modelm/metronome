@@ -259,6 +259,14 @@ var Metronome = {
 				Metronome.start();
 			}
 		});
+		Mousetrap.bindGlobal('u', function (e) { // start if stopped; stop if started
+			e.preventDefault();
+			if (Metronome.tuner) {
+				Metronome.stopTuner();
+			} else {
+				Metronome.startTuner();
+			}
+		});
 		Mousetrap.bindGlobal('down', function () {
 			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 1;
 			Metronome.save();
@@ -423,6 +431,7 @@ var Metronome = {
 			'• . - tap',
 			'• b - focus beats per measure',
 			'• t - focus tempo',
+			'• u - start/stop tuner',
 			'• ? - show this help'
 		].join('\n'));
 

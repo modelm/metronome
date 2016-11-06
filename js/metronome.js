@@ -268,20 +268,28 @@ var Metronome = {
 			}
 		});
 		Mousetrap.bindGlobal('down', function () {
-			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 1;
-			Metronome.save();
+			if (document.activeElement.tagName !== 'INPUT') {
+				Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 1;
+				Metronome.save();
+			}
 		});
 		Mousetrap.bindGlobal('up', function () {
-			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + 1;
-			Metronome.save();
+			if (document.activeElement.tagName !== 'INPUT') {
+				Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + 1;
+				Metronome.save();
+			}
 		});
 		Mousetrap.bindGlobal('left', function () {
-			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 10;
-			Metronome.save();
+			if (document.activeElement.tagName !== 'INPUT') {
+				Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 10;
+				Metronome.save();
+			}
 		});
 		Mousetrap.bindGlobal('right', function () {
-			Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + 10;
-			Metronome.save();
+			if (document.activeElement.tagName !== 'INPUT') {
+				Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + 10;
+				Metronome.save();
+			}
 		});
 		Mousetrap.bindGlobal('n', function () {
 			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) / 2);
@@ -420,10 +428,10 @@ var Metronome = {
 			'\n\n',
 			'keyboard shortcuts:\n',
 			'• space - start/stop',
-			'• up - increment tempo by 1',
-			'• down - decrement tempo by 1',
-			'• left - decrement tempo by 10',
-			'• right - increment tempo by 10',
+			'• up - increment tempo by 1 (when input not focused)',
+			'• down - decrement tempo by 1 (when input not focused)',
+			'• left - decrement tempo by 10 (when input not focused)',
+			'• right - increment tempo by 10 (when input not focused)',
 			'• n - halve tempo',
 			'• m - double tempo',
 			'• j - third tempo',

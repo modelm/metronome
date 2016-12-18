@@ -15,13 +15,32 @@ describe("Metronome", function() {
 
 	describe("when started", function() {
 		beforeEach(function() {
-			Metronome.parseTime();
+			Metronome.load();
 			Metronome.start();
-			Metronome.tick(); // this gets called after a while once start() has run, but we can't wait. would be nice to find a way to make this unnecessary TODO
+			Metronome.tick();
 		});
 
 		it("should show the current beat", function() {
 			expect(parseInt(document.getElementById('visual-target').innerHTML)).toEqual(Metronome.beat);
+		});
+
+		it("should have parsed tempo", function() {
+			expect(Metronome.settings.tempo).toEqual(parseInt(Metronome.inputs.tempo.value));
+		});
+
+		it("should have parsed time", function() {
+			expect(Metronome.settings.time).toEqual(Metronome.inputs.time.value);
+		});
+
+		it("should have parsed duration", function() {
+			expect(Metronome.settings.duration).toEqual(parseFloat(Metronome.inputs.duration.value));
+		});
+
+		it("should have parsed frequencies", function() {
+			expect(Metronome.settings.frequencies.downbeat).toEqual(parseInt(Metronome.inputs.frequencies.downbeat.value));
+			expect(Metronome.settings.frequencies.strong).toEqual(parseInt(Metronome.inputs.frequencies.strong.value));
+			expect(Metronome.settings.frequencies.weak).toEqual(parseInt(Metronome.inputs.frequencies.weak.value));
+			expect(Metronome.settings.frequencies.tuner).toEqual(parseInt(Metronome.inputs.frequencies.tuner.value));
 		});
 	});
 
@@ -34,27 +53,4 @@ describe("Metronome", function() {
 			expect(document.getElementById('visual-target').innerHTML).toEqual('&nbsp;');
 		});
 	});
-
-	/*
-	// demonstrates use of spies to intercept and test method calls
-	it("tells the current song if the user has made it a favorite", function() {
-	spyOn(song, 'persistFavoriteStatus');
-
-	player.play(song);
-	player.makeFavorite();
-
-	expect(song.persistFavoriteStatus).toHaveBeenCalledWith(true);
-	});
-
-	//demonstrates use of expected exceptions
-	describe("#resume", function() {
-	it("should throw an exception if song is already playing", function() {
-	player.play(song);
-
-	expect(function() {
-	player.resume();
-	}).toThrowError("song is already playing");
-	});
-	});
-	*/
 });

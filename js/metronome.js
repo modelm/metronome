@@ -447,7 +447,9 @@ var Metronome = {
 			'• b - focus beats per measure',
 			'• t - focus tempo',
 			'• u - start/stop tuner',
-			'• ? - show this help'
+			'• ? - show this help',
+			'\n\n',
+			'favicon by Andrea Verzola from the Noun Project'
 		].join('\n'));
 
 		return false;

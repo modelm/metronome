@@ -300,18 +300,44 @@ var Metronome = {
 		});
 		Mousetrap.bindGlobal('n', function () {
 			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) / 2);
+			Metronome.inputs.time.value = (function () {
+				Metronome.groups.forEach(function (group, i) {
+					var result = parseInt(parseFloat(group) / 2);
+					Metronome.groups[i] = ( result >= 1 ) ? result : Metronome.groups[i];
+				});
+				return Metronome.groups.join('+');
+			})();
 			Metronome.save();
 		});
 		Mousetrap.bindGlobal('m', function () {
 			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) * 2);
+			Metronome.inputs.time.value = (function () {
+				Metronome.groups.forEach(function (group, i) {
+					Metronome.groups[i] = parseInt(group) * 2;
+				});
+				return Metronome.groups.join('+');
+			})();
 			Metronome.save();
 		});
 		Mousetrap.bindGlobal('j', function () {
 			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) / 3);
+			Metronome.inputs.time.value = (function () {
+				Metronome.groups.forEach(function (group, i) {
+					var result = parseInt(parseFloat(group) / 3);
+					Metronome.groups[i] = ( result >= 1 ) ? result : Metronome.groups[i];
+				});
+				return Metronome.groups.join('+');
+			})();
 			Metronome.save();
 		});
 		Mousetrap.bindGlobal('k', function () {
 			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) * 3);
+			Metronome.inputs.time.value = (function () {
+				Metronome.groups.forEach(function (group, i) {
+					Metronome.groups[i] = parseInt(group) * 3;
+				});
+				return Metronome.groups.join('+');
+			})();
 			Metronome.save();
 		});
 

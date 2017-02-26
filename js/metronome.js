@@ -227,6 +227,27 @@ var Metronome = {
 		}
 	},
 
+	addTempo: function(addend) {
+		Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) + addend);
+		Metronome.save();
+	},
+
+	multiplyTempo: function(multiplier) {
+		Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) * multiplier);
+		Metronome.save();
+	},
+
+	multiplyTime: function(multiplier) {
+		Metronome.inputs.time.value = (function () {
+			Metronome.groups.forEach(function (group, i) {
+				var result = parseInt(parseFloat(group) * multiplier);
+				Metronome.groups[i] = ( result >= 1 ) ? result : Metronome.groups[i];
+			});
+			return Metronome.groups.join('+');
+		})();
+		Metronome.save();
+	},
+
 	bindControls: function () {
 		var eachRecursive = function (obj, callback) {
 			for (var k in obj) {
@@ -276,69 +297,43 @@ var Metronome = {
 		});
 		Mousetrap.bindGlobal('down', function () {
 			if (document.activeElement.tagName !== 'INPUT') {
-				Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 1;
+				Metronome.addTempo(-1);
 				Metronome.save();
 			}
 		});
 		Mousetrap.bindGlobal('up', function () {
 			if (document.activeElement.tagName !== 'INPUT') {
-				Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + 1;
+				Metronome.addTempo(1);
 				Metronome.save();
 			}
 		});
 		Mousetrap.bindGlobal('left', function () {
 			if (document.activeElement.tagName !== 'INPUT') {
-				Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) - 10;
+				Metronome.addTempo(-10);
 				Metronome.save();
 			}
 		});
 		Mousetrap.bindGlobal('right', function () {
 			if (document.activeElement.tagName !== 'INPUT') {
-				Metronome.inputs.tempo.value = parseInt(Metronome.inputs.tempo.value) + 10;
+				Metronome.addTempo(10);
 				Metronome.save();
 			}
 		});
 		Mousetrap.bindGlobal('n', function () {
-			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) / 2);
-			Metronome.inputs.time.value = (function () {
-				Metronome.groups.forEach(function (group, i) {
-					var result = parseInt(parseFloat(group) / 2);
-					Metronome.groups[i] = ( result >= 1 ) ? result : Metronome.groups[i];
-				});
-				return Metronome.groups.join('+');
-			})();
-			Metronome.save();
+			Metronome.multiplyTempo(1/2);
+			Metronome.multiplyTime(1/2);
 		});
 		Mousetrap.bindGlobal('m', function () {
-			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) * 2);
-			Metronome.inputs.time.value = (function () {
-				Metronome.groups.forEach(function (group, i) {
-					Metronome.groups[i] = parseInt(group) * 2;
-				});
-				return Metronome.groups.join('+');
-			})();
-			Metronome.save();
+			Metronome.multiplyTempo(2);
+			Metronome.multiplyTime(2);
 		});
 		Mousetrap.bindGlobal('j', function () {
-			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) / 3);
-			Metronome.inputs.time.value = (function () {
-				Metronome.groups.forEach(function (group, i) {
-					var result = parseInt(parseFloat(group) / 3);
-					Metronome.groups[i] = ( result >= 1 ) ? result : Metronome.groups[i];
-				});
-				return Metronome.groups.join('+');
-			})();
-			Metronome.save();
+			Metronome.multiplyTempo(1/3);
+			Metronome.multiplyTime(1/3);
 		});
 		Mousetrap.bindGlobal('k', function () {
-			Metronome.inputs.tempo.value = parseInt(parseInt(Metronome.inputs.tempo.value) * 3);
-			Metronome.inputs.time.value = (function () {
-				Metronome.groups.forEach(function (group, i) {
-					Metronome.groups[i] = parseInt(group) * 3;
-				});
-				return Metronome.groups.join('+');
-			})();
-			Metronome.save();
+			Metronome.multiplyTempo(3);
+			Metronome.multiplyTime(3);
 		});
 
 		// start/stop

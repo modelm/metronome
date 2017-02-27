@@ -266,7 +266,6 @@ var Metronome = {
 			input.onchange = Metronome.save; // for type=number controls & mobile
 		});
 
-		Mousetrap.bindGlobal('?', Metronome.showHelp);
 		Mousetrap.bindGlobal('.', function (e) {
 			e.preventDefault();
 			Metronome.handleTap();
@@ -369,9 +368,6 @@ var Metronome = {
 		// tap tempo
 		document.getElementById('tap').onclick = Metronome.handleTap;
 
-		// help
-		document.getElementById('show-help').onclick = Metronome.showHelp;
-
 		// small window popout
 		document.getElementById('popout').onclick = function () {
 			Metronome.stop();
@@ -445,34 +441,6 @@ var Metronome = {
 	reset: function () {
 		localStorage.removeItem('Metronome.settings');
 		location.reload();
-		return false;
-	},
-
-	showHelp: function () {
-		alert([
-			'beats per measure can be either of the following:\n',
-			'• "" or "0" (no groups)',
-			'• one or more numbers separated by "+" e.g. "4", "2+3", "3+2+2"',
-			'\n\n',
-			'keyboard shortcuts:\n',
-			'• space - start/stop',
-			'• up - increment tempo by 1 (when input not focused)',
-			'• down - decrement tempo by 1 (when input not focused)',
-			'• left - decrement tempo by 10 (when input not focused)',
-			'• right - increment tempo by 10 (when input not focused)',
-			'• n - halve tempo',
-			'• m - double tempo',
-			'• j - third tempo',
-			'• k - triple tempo',
-			'• . - tap',
-			'• b - focus beats per measure',
-			'• t - focus tempo',
-			'• u - start/stop tuner',
-			'• ? - show this help',
-			'\n\n',
-			'favicon by Andrea Verzola from the Noun Project'
-		].join('\n'));
-
 		return false;
 	},
 

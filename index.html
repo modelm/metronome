@@ -37,8 +37,60 @@
 				<label for="frequency-tuner">tuner</label>
 				<input name="frequency-tuner" id="frequency-tuner" type="number" min="0"> Hz
 			</div>
-			<br>
-			<a id="reset" href="#">reset to defaults</a>
+
+			<p><a id="reset" href="#">reset to defaults</a></p>
+
+			<div class="reference">
+				<p>beats per measure can be either of the following:</p>
+
+				<ul>
+					<li>empty or <code>0</code> (no groups)</li>
+					<li>one or more numbers separated by <code>+</code> e.g. <code>4</code>, <code>2+3</code>, <code>3+2+2</code></li>
+				</ul>
+
+				<dl>
+					<dt>space</dt>
+					<dd>start/stop</dd>
+
+					<dt>up</dt>
+					<dd>increment tempo by 1 (when input not focused)</dd>
+
+					<dt>down</dt>
+					<dd>decrement tempo by 1 (when input not focused)</dd>
+
+					<dt>left</dt>
+					<dd>decrement tempo by 10 (when input not focused)</dd>
+
+					<dt>right</dt>
+					<dd>increment tempo by 10 (when input not focused)</dd>
+
+					<dt>n</dt>
+					<dd>halve tempo</dd>
+
+					<dt>m</dt>
+					<dd>double tempo</dd>
+
+					<dt>j</dt>
+					<dd>third tempo</dd>
+
+					<dt>k</dt>
+					<dd>triple tempo</dd>
+
+					<dt>.</dt>
+					<dd>tap</dd>
+
+					<dt>b</dt>
+					<dd>focus beats per measure</dd>
+
+					<dt>t</dt>
+					<dd>focus tempo</dd>
+
+					<dt>u</dt>
+					<dd>start/stop tuner</dd>
+				</dl>
+
+				<p><a href="https://thenounproject.com/andrea.verzola1/uploads/?i=173952">favicon by Andrea Verzola from the Noun Project</a></p>
+			</div>
 		</div>
 
 		<div id="metronome">
@@ -71,8 +123,6 @@
 
 			<a id="start-tuner" href="#">start tuner</a>
 			<a id="stop-tuner" href="#" style="display: none;">stop tuner</a>
-
-			<a id="show-help" href="#">help</a>
 		</div>
 
 		<script src="js/mousetrap.min.js"></script>

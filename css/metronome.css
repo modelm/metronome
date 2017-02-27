@@ -1,7 +1,7 @@
 body {
 	font-family: Helvetica, sans-serif;
 	color: #000000;
-	margin: 0;
+	margin: 1em;
 	padding: 0;
 	height: 100%;
 }
@@ -31,11 +31,6 @@ button#minus1 {
 	display: none;
 }
 
-#metronome-advanced-controls {
-	position: absolute;
-	top: 10px;
-	left: 10px;
-}
 #metronome-advanced-controls button {
 	display: block;
 	margin-bottom: 10px;
@@ -46,6 +41,31 @@ button#minus1 {
 }
 #metronome-advanced-controls input {
 	width: 4em;
+}
+
+.reference {
+	font-size: 0.75em;
+	color: #a0a0a0;
+}
+
+.reference dd:after {
+	content: "";
+	display: block;
+}
+
+.reference code {
+	color: #000000;
+	font-size: 1.25em;
+}
+
+.reference dt {
+	color: #000000;
+	display: inline-block;
+	min-width: 3em;
+}
+
+.reference dd {
+	display: inline;
 }
 
 #start-tuner,
@@ -63,6 +83,7 @@ button#minus1 {
 
 #metronome {
 	border: 1px solid #c0c0c0;
+	background-color: white;
 	text-align: center;
 	width: 318px;
 	vertical-align: middle;

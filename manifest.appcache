@@ -1,6 +1,5 @@
 CACHE MANIFEST
 
-CACHE:
 index.html
 js/metronome.js
 js/mousetrap-global-bind.min.js

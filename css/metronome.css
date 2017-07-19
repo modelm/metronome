@@ -35,11 +35,11 @@ button#minus1 {
 	display: block;
 	margin-bottom: 10px;
 }
-#metronome-advanced-controls label {
+#metronome-advanced-controls div label {
 	display: inline-block;
 	width: 6em;
 }
-#metronome-advanced-controls input {
+#metronome-advanced-controls div input {
 	width: 4em;
 }
 

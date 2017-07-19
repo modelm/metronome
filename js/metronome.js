@@ -238,14 +238,16 @@ var Metronome = {
 	},
 
 	multiplyTime: function(multiplier) {
-		Metronome.inputs.time.value = (function () {
-			Metronome.groups.forEach(function (group, i) {
-				var result = parseInt(parseFloat(group) * multiplier);
-				Metronome.groups[i] = ( result >= 1 ) ? result : Metronome.groups[i];
-			});
-			return Metronome.groups.join('+');
-		})();
-		Metronome.save();
+		if (document.getElementById('multiply_time').checked) {
+			Metronome.inputs.time.value = (function () {
+				Metronome.groups.forEach(function (group, i) {
+					var result = parseInt(parseFloat(group) * multiplier);
+					Metronome.groups[i] = ( result >= 1 ) ? result : Metronome.groups[i];
+				});
+				return Metronome.groups.join('+');
+			})();
+			Metronome.save();
+		}
 	},
 
 	bindControls: function () {

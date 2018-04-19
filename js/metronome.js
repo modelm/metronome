@@ -28,7 +28,7 @@ var Metronome = {
 	settings: {
 		tempo: 120,
 		time: 0,
-		duration: 0.01,
+		duration: 0.02,
 		frequencies: {
 			downbeat: 2500,
 			strong: 2000,
